@@ -6,17 +6,32 @@
     <title>GuitarBase</title>
     <link rel="stylesheet" href="./css/fret.css">
     <link rel="icon" href="./images/home_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="header"></div>
+    <div class="header-box"></div>
     <div class="settings">
-        <div class="accidental-selector">
-            <input type="radio" class="acc-selector" id="flats" name="accidentals" value="flats" checked>
-            <label class="radio_label" for="flats">♭</label>
-            <input type="radio" class="acc-selector" id="sharps" name="accidentals" value="sharps">
-            <label class="radio_label" for="sharps">♯</label>
+        <div class="setting-group">
+            <!-- accidental selector -->
+            <div class="accidental-selector">
+                <input type="radio" class="acc-selector" id="flats" name="accidentals" value="flats" checked>
+                <label class="radio_label" for="flats">♭</label>
+                <input type="radio" class="acc-selector" id="sharps" name="accidentals" value="sharps">
+                <label class="radio_label" for="sharps">♯</label>
+            </div>
+            <h4 class="setting-title">accidentals</h4>
         </div>
-        <h4 class="setting-title">accidentals</h4>
+        <div class="setting-group">
+            <!-- number fret selector -->
+            <div class="fret-select">
+                <div class="fret-container">
+                    <button id="decrement" class="fret-button" onclick=handlers.changeFretNumber(this)> - </button>
+                    <input type="number" id="fret-input" min= "5" max="22" value="12" readonly>
+                    <button id="increment" class="fret-button" onclick=handlers.changeFretNumber(this)> + </button>
+                </div>
+            </div>
+            <h4 class="setting-title">frets</h4>
+        </div>
     </div>
     <div class="fretboard"></div>
     <div class="numbers"></div>
