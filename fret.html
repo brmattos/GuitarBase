@@ -8,7 +8,18 @@
     <link rel="icon" href="./images/home_icon.png">
 </head>
 <body>
+    <div class="header"></div>
+    <div class="settings">
+        <div class="accidental-selector">
+            <input type="radio" class="acc-selector" id="flats" name="accidentals" value="flats" checked>
+            <label class="radio_label" for="flats">♭</label>
+            <input type="radio" class="acc-selector" id="sharps" name="accidentals" value="sharps">
+            <label class="radio_label" for="sharps">♯</label>
+        </div>
+        <h4 class="setting-title">accidentals</h4>
+    </div>
     <div class="fretboard"></div>
+    <div class="numbers"></div>
     <script src="./js/fret.js"></script>
 </body>
 </html>
