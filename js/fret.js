@@ -3,33 +3,31 @@ const root = document.documentElement;  // access css root vars
 const fretboard = document.querySelector(".fretboard");
 const fretNumbers = document.querySelector(".numbers");
 const accidentalSelector = document.querySelector(".accidental-selector");
-
-const max_frets = 22;
-const num_frets = 12;
-const num_strs = 6;
+const fretNumInput = document.getElementById("fret-input");
 
 const fretmarkDots = [3, 5, 7, 9, 15, 17, 19, 21];
 const notesFlat = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
 const notesSharp = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
+let num_frets = 12;
 let accidentals = "flats";
 const tuning = [4, 11, 7, 2, 9, 4]  // ** indicies relative to notes flat/sharp arrays - default: EADGBE
 
 // Setup the audio, {data-note : audio}  (COME BACK TO FIX THIS)!!!!
 const fretSounds = {
-    0: new Audio("./notes/E1.m4a"),
-    1: new Audio("./notes/F1.m4a"),
-    2: new Audio("./notes/FS1.m4a"),
-    3: new Audio("./notes/G1.m4a"),
-    4: new Audio("./notes/GS1.m4a"),
-    5: new Audio("./notes/A1.m4a"),
-    6: new Audio("./notes/AS1.m4a"),
-    7: new Audio("./notes/B1.m4a"),
-    8: new Audio("./notes/C1.m4a"),
-    9: new Audio("./notes/CS1.m4a"),
-    10: new Audio("./notes/D1.m4a"),
-    11: new Audio("./notes/DS1.m4a"),
-    12: new Audio("./notes/E2.m4a")
+    0: new Audio("./sounds/E1.m4a"),
+    1: new Audio("./sounds/F1.m4a"),
+    2: new Audio("./sounds/FS1.m4a"),
+    3: new Audio("./sounds/G1.m4a"),
+    4: new Audio("./sounds/GS1.m4a"),
+    5: new Audio("./sounds/A1.m4a"),
+    6: new Audio("./sounds/AS1.m4a"),
+    7: new Audio("./sounds/B1.m4a"),
+    8: new Audio("./sounds/C1.m4a"),
+    9: new Audio("./sounds/CS1.m4a"),
+    10: new Audio("./sounds/D1.m4a"),
+    11: new Audio("./sounds/DS1.m4a"),
+    12: new Audio("./sounds/E2.m4a")
 };
 
 const app = {
@@ -43,9 +41,9 @@ const app = {
         /* Setup the fretboard (strings, frets, fretmarks) */
 
         fretboard.innerHTML = "";  // empty HTML before setup
-        root.style.setProperty('--number-of-strings', num_strs);
+        root.style.setProperty('--number-of-strings', 6);
 
-        for (let i = 0; i < num_strs; i++) {
+        for (let i = 0; i < 6; i++) {
             // Add strings to the fretboard
             let str = tools.createElement('div');
             str.classList.add('string');
@@ -103,14 +101,12 @@ const app = {
 
         accidentalSelector.addEventListener("click", (event) => {
             if (event.target.classList.contains("acc-selector")) {
-                accidentals = event.target.value;
-                console.log(accidentals);
-                const allNotes = document.querySelectorAll(".note-fret");
-                allNotes.forEach(note => {
-                    // Hide all notes
-                    note.style.setProperty("--noteOpacity", 0);
-                });
-                this.setupFretboard();  // reset the fretboard
+                if (event.target.value !== accidentals) {
+                    // Changed the button
+                    accidentals = event.target.value;
+                    tools.clearNotes();
+                    this.setupFretboard();  // reset the fretboard
+                }
             } else {
                 return;
             }
@@ -127,11 +123,32 @@ const tools = {
             element.innerHTML = content;
         }
         return element;
+    },
+
+    clearNotes() {
+        const allNotes = document.querySelectorAll(".note-fret");
+            allNotes.forEach(note => {
+                // Hide all notes
+                note.style.setProperty("--noteOpacity", 0);
+            });
     }
 }
 
 const handlers = {
-
+    changeFretNumber(btn) {
+        let id = btn.getAttribute("id");
+        let min = fretNumInput.getAttribute("min");
+        let max = fretNumInput.getAttribute("max");
+        let val = fretNumInput.getAttribute("value");
+        
+        let direction = (id == "increment") ? 1 : -1
+        let newVal = parseInt(val) + direction;
+        if (newVal >= min && newVal <= max) {
+            fretNumInput.setAttribute("value", newVal);
+            num_frets = newVal;
+            app.setupFretboard();
+        }
+    }
 }
 
 const sounds = {
