@@ -40,34 +40,42 @@ const app = {
     setupFretboard() {
         /* Setup the fretboard (strings, frets, fretmarks) */
 
-        fretboard.innerHTML = "";  // empty HTML before setup
-        root.style.setProperty('--number-of-strings', 6);
+        fretboard.innerHTML = "";
+        fretNumbers.innerHTML= "";
+        root.style.setProperty("--number-of-strings", 6);
 
         for (let i = 0; i < 6; i++) {
             // Add strings to the fretboard
-            let str = tools.createElement('div');
-            str.classList.add('string');
+            let str = tools.createElement("div");
+            str.classList.add("string");
             fretboard.appendChild(str);
 
             for (let fret = 0; fret <= num_frets; fret++) {
                 // Add the frets to the fretboard
-                let note_fret = tools.createElement('div');
-                note_fret.classList.add('note-fret');
+                let note_fret = tools.createElement("div");
+                note_fret.classList.add("note-fret");
                 str.appendChild(note_fret);
 
                 // Setup the tuning
                 let note_name = this.generateNoteNames((fret + tuning[i]), accidentals);
                 note_fret.setAttribute('data-note', note_name);
 
+                // Setup the fret numbers
+                if (i === 0) {
+                    let num = tools.createElement("div", fret);
+                    num.classList.add("fret-number");
+                    fretNumbers.appendChild(num);
+                }
+                
                 if (i == 0 && fretmarkDots.indexOf(fret) !== -1) {
                     // Add the single fretmarks
-                    note_fret.classList.add('single-fretmark');
+                    note_fret.classList.add("single-fretmark");
                 }
 
                 if (i == 0 && fret == 12) {
                     // Add the double fretmarks
-                    let double_fretmark = tools.createElement('div');
-                    double_fretmark.classList.add('double-fretmark');
+                    let double_fretmark = tools.createElement("div");
+                    double_fretmark.classList.add("double-fretmark");
                     note_fret.appendChild(double_fretmark);
                 }
             }
