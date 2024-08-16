@@ -4,14 +4,19 @@ const fretboard = document.querySelector(".fretboard");
 const fretNumbers = document.querySelector(".numbers");
 const accidentalSelector = document.querySelector(".accidental-selector");
 const fretNumInput = document.getElementById("fret-input");
+const tuningGroup = document.querySelector(".tuning-group");
 
 const fretmarkDots = [3, 5, 7, 9, 15, 17, 19, 21];
 const notesFlat = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
 const notesSharp = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+let allNotes = [];
+for (let i = 0; i < 5; i++) {
+    allNotes.push("C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B");
+}
 
 let num_frets = 12;
 let accidentals = "flats";
-const tuning = [4, 11, 7, 2, 9, 4]  // ** indicies relative to notes flat/sharp arrays - default: EADGBE
+let tuning = [4, 11, 7, 2, 9, 4]  // ** indicies relative to notes flat/sharp arrays - default: EADGBE
 
 // Setup the audio, {data-note : audio}  (COME BACK TO FIX THIS)!!!!
 const fretSounds = {
@@ -34,7 +39,8 @@ const app = {
     init() {
         this.setupFretboard();
         this.setupEventListeners();
-        sounds.loadAudio();
+        handlers.createTuning();
+        audio.loadAudio();
     },
 
     setupFretboard() {
@@ -47,6 +53,7 @@ const app = {
         for (let i = 0; i < 6; i++) {
             // Add strings to the fretboard
             let str = tools.createElement("div");
+            str.setAttribute("id", (i+1).toString());
             str.classList.add("string");
             fretboard.appendChild(str);
 
@@ -67,13 +74,13 @@ const app = {
                     fretNumbers.appendChild(num);
                 }
                 
+                // Add the single fretmarks
                 if (i == 0 && fretmarkDots.indexOf(fret) !== -1) {
-                    // Add the single fretmarks
                     note_fret.classList.add("single-fretmark");
                 }
 
+                // Add the double fretmarks
                 if (i == 0 && fret == 12) {
-                    // Add the double fretmarks
                     let double_fretmark = tools.createElement("div");
                     double_fretmark.classList.add("double-fretmark");
                     note_fret.appendChild(double_fretmark);
@@ -122,6 +129,70 @@ const app = {
     }
 }
 
+const handlers = {
+    changeFretNumber(btn) {
+        let id = btn.getAttribute("id");
+        let min = fretNumInput.getAttribute("min");
+        let max = fretNumInput.getAttribute("max");
+        let val = fretNumInput.getAttribute("value");
+        
+        let direction = (id == "increment") ? 1 : -1
+        let newVal = parseInt(val) + direction;
+        if (newVal >= min && newVal <= max) {
+            fretNumInput.setAttribute("value", newVal);
+            num_frets = newVal;
+            app.setupFretboard();
+        }
+    },
+
+    changeTuning(new_tuning) {
+        /* Whenever any of the string's tuning is changed */
+    },
+
+    createTuning() {
+        /* For the tuning section of the settings, create each individual select drop-down */
+        tuningGroup.innerHTML = "";
+        for (let i = 5; i >= 0; i--) {
+
+            // Create the div for the column
+            let group = tools.createElement("div");
+            group.classList.add("setting-group");
+            tuningGroup.appendChild(group);
+
+            // Create the div for the respective note str
+            // (start off at given tuning, EADGBE)
+            let str_tuning;
+            if (accidentals === "flats") {
+                note = notesFlat[tuning[i]];
+            } else {
+                note = notesSharp[tuning[i]];
+            }
+            str_tuning = tools.createElement("div", note);
+            str_tuning.setAttribute("id", (i+1).toString());
+            str_tuning.classList.add("tuning");
+            group.appendChild(str_tuning);
+        }
+    }
+}
+
+const audio = {
+    loadAudio() {
+        window.onload = function() {
+            for (const fret in fretSounds) {
+                fretSounds[fret].load();  // Preload the audio file
+            }
+        };
+    },
+
+    playNote(fretNumber) {
+        fretSounds[fretNumber].play();
+    },
+
+    playNotes() {
+        this.playNote();
+    }
+}
+
 const tools = {
     /* Creation tool methods */
     createElement(element, content) {
@@ -139,37 +210,19 @@ const tools = {
                 // Hide all notes
                 note.style.setProperty("--noteOpacity", 0);
             });
-    }
-}
-
-const handlers = {
-    changeFretNumber(btn) {
-        let id = btn.getAttribute("id");
-        let min = fretNumInput.getAttribute("min");
-        let max = fretNumInput.getAttribute("max");
-        let val = fretNumInput.getAttribute("value");
-        
-        let direction = (id == "increment") ? 1 : -1
-        let newVal = parseInt(val) + direction;
-        if (newVal >= min && newVal <= max) {
-            fretNumInput.setAttribute("value", newVal);
-            num_frets = newVal;
-            app.setupFretboard();
-        }
-    }
-}
-
-const sounds = {
-    loadAudio() {
-        window.onload = function() {
-            for (const fret in fretSounds) {
-                fretSounds[fret].load();  // Preload the audio file
-            }
-        };
     },
 
-    playFretSound(fretNumber) {
-        fretSounds[fretNumber].play();
+    reset() {
+        tuning = [4, 11, 7, 2, 9, 4]
+        num_frets = 12;
+        fretNumInput.setAttribute("value", "12");
+        app.setupFretboard();
+        handlers.createTuning();
+        this.clearNotes();
+    },
+
+    updateStringNote() {
+
     }
 }
 
