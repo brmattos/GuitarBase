@@ -7,16 +7,38 @@ const fretNumInput = document.getElementById("fret-input");
 const tuningGroup = document.querySelector(".tuning-group");
 
 const fretmarkDots = [3, 5, 7, 9, 15, 17, 19, 21];
-const notesFlat = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
-const notesSharp = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+const notesFlat = ["E", "F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb"];
+const notesSharp = ["E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"];
+
 let allNotes = [];
 for (let i = 0; i < 5; i++) {
-    allNotes.push("C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B");
+    allNotes.push([i, ["E", "F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb"]]);
 }
 
+let tunings = {
+    /* Possible alternate tunings for each string (relative to flats/sharps arr positions) 
+        - 1 up + 1 root + 4 down
+    */
+    // 1) E Eb D Db C F
+    // 2) B Bb A Ab G C
+    // 3) G Gb F E Eb Ab
+    // 4) D Db C B Bb Eb
+    // 5) A Ab G Gb F Bb
+    // 6) E Eb D Db C F
+    1: [0, 11, 10, 9, 8, 1],
+    2: [7, 6, 5, 4, 2, 8],    
+    3: [3, 2, 1, 11, 4],     
+    4: [10, 9, 8, 7, 6, 11],  
+    5: [5, 4, 3, 2, 1, 6],    
+    6: [0, 11, 10, 9, 8, 1]   
+}
+
+// IMPORTANT VARS
 let num_frets = 12;
 let accidentals = "flats";
-let tuning = [4, 11, 7, 2, 9, 4]  // ** indicies relative to notes flat/sharp arrays - default: EADGBE
+let tuning = [0, 7, 3, 10, 5, 0];  // high E -> low E
+
+// ---------------------------------------------------------------------------------------------
 
 // Setup the audio, {data-note : audio}  (COME BACK TO FIX THIS)!!!!
 const fretSounds = {
@@ -131,10 +153,10 @@ const app = {
 
 const handlers = {
     changeFretNumber(btn) {
-        let id = btn.getAttribute("id");
-        let min = fretNumInput.getAttribute("min");
-        let max = fretNumInput.getAttribute("max");
-        let val = fretNumInput.getAttribute("value");
+        let id = btn.id;
+        let min = fretNumInput.min;
+        let max = fretNumInput.max;
+        let val = fretNumInput.value;
         
         let direction = (id == "increment") ? 1 : -1
         let newVal = parseInt(val) + direction;
@@ -143,10 +165,6 @@ const handlers = {
             num_frets = newVal;
             app.setupFretboard();
         }
-    },
-
-    changeTuning(new_tuning) {
-        /* Whenever any of the string's tuning is changed */
     },
 
     createTuning() {
@@ -167,9 +185,37 @@ const handlers = {
             } else {
                 note = notesSharp[tuning[i]];
             }
-            str_tuning = tools.createElement("div", note);
-            str_tuning.setAttribute("id", (i+1).toString());
+            str_tuning = tools.createElement("button", note);
+            str_tuning.value = 0;
+            str_tuning.id = (i+1).toString();
             str_tuning.classList.add("tuning");
+
+            str_tuning.onclick = function() {
+                /* CLICK - (update tuning, rotating) */ 
+                let pos = parseInt(this.getAttribute("value"), 10);
+                let string_number = parseInt(this.getAttribute("id"), 10);
+
+                let length = tunings[1].length;
+                if (pos < (length - 1)) {
+                    pos += 1  // can iterate forward
+                } else {
+                    pos = 0  // need to go back to start (standard)
+                }
+
+                let new_note = "";
+                if (accidentals === "flats") {
+                    new_note = notesFlat[tunings[string_number][pos]];
+                } else {
+                    new_note = notesSharp[tunings[string_number][pos]];
+                }
+
+                this.innerHTML = new_note;
+                this.setAttribute("value", pos);
+                tuning[string_number - 1] = tunings[string_number][pos];
+                tools.clearNotes();
+                app.setupFretboard();
+            }
+
             group.appendChild(str_tuning);
         }
     }
@@ -213,7 +259,7 @@ const tools = {
     },
 
     reset() {
-        tuning = [4, 11, 7, 2, 9, 4]
+        tuning = [0, 7, 3, 10, 5, 0];
         num_frets = 12;
         fretNumInput.setAttribute("value", "12");
         app.setupFretboard();

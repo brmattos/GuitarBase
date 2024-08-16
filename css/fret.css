@@ -21,6 +21,13 @@ body {
 
 /* ----------------- HEADER MENU ----------------- */
 
+.logo-img {
+    width: 50px;
+    height: 50px;
+    float: right;
+    margin-left: 1000px;
+}
+
 .header-box {
     display: flex;
     flex-direction: row;
@@ -28,7 +35,7 @@ body {
     background: rgb(235, 235, 207);
     min-width: 1500px;
     width: 100%;
-    padding: 15px 0px 35px 0px;
+    padding: 15px 0px 15px 0px;
     margin-bottom: 25px;
     border-bottom: 1px solid rgb(227, 227, 193);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
@@ -38,15 +45,15 @@ body {
     display: flex;
     height: 20px;
     margin-left: 25px;
-    margin-bottom: 10px;
     color: rgb(64, 64, 140);
+    padding-bottom: 30px;
 }
 
 .navbar {
     margin: auto;
     padding: 10px;
     border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .nav-links {
@@ -65,7 +72,7 @@ body {
     font-size: 14px;
     list-style: none;
     height: 100%;
-    padding: 0.5rem, 1rem;
+    padding: 1rem, 1rem;
     font-weight: 300;
     cursor: pointer;
 }
@@ -78,13 +85,12 @@ a {
 .drop-down {
     position: absolute;
     display: none;
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem 0.7rem;
     margin-top: 0.5rem;
     color: rgb(227, 227, 193);
     background: rgb(64, 64, 140);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
-    margin-left: 0.1rem;
 }
 
 .nav-link:hover {
@@ -126,7 +132,6 @@ a {
 .settings {
     display: flex;
     flex-direction: row;
-    flex: 1;
     align-items: center;
     background: rgb(235, 235, 207);
     padding: 25px 25px 15px 25px;
@@ -246,9 +251,11 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 .tuning {
     align-items: center;
     border-radius: 20%;
+    border: none;
     padding: 20px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    color:rgb(53, 34, 16);
+    background: rgb(235, 235, 207);
+    color: rgb(108, 76, 46);
     font-size: 20px;
     font-weight: bolder;
     cursor: pointer;
@@ -256,9 +263,45 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 }
 
 .tuning:hover {
-    background:rgb(64, 64, 140);
+    background:rgb(108, 76, 46);
     color:rgb(235, 235, 207);
     transition: background 0.3s ease;
+}
+
+/* ------------ RESET + PLAY BUTTONS ------------- */
+
+.reset-button, .play-button {
+    position: relative;
+    border-radius: 1rem;
+    padding: 15px 25px 15px 25px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.reset-button {
+    color: rgb(83, 48, 28);
+    background: rgb(235, 235, 207);
+    margin-left: 20px;
+    border: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+
+.play-button {
+    color:rgb(235, 235, 207);
+    background:rgb(64, 64, 140);
+    border: none;
+}
+
+.reset-button:hover {
+    transition: background 0.3s ease;
+    background:rgb(79, 45, 26);
+    color: rgb(235, 235, 207);
+}
+
+.play-button:hover {
+    transition: background 0.3s ease;
+    background:rgb(43, 43, 96);
 }
 
 /* ------------------ FRETBOARD ------------------ */
