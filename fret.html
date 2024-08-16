@@ -3,16 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GuitarBase</title>
     <link rel="stylesheet" href="./css/fret.css">
     <link rel="icon" href="./images/home_icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>GuitarBase</title>
 </head>
 <body>
-    <div class="header-box"></div>
+    <div class="header-box">
+        <div class="header-container">
+            <nav class="navbar">
+                <ul class="nav-links">
+                    <li class="nav-link">
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="nav-link features">
+                        <a>Features
+                            <span class="material-icons dropdown-icon">
+                                arrow_drop_down
+                            </span>
+                        </a>
+                        <ul class="drop-down">
+                            <li><a href="#1">Tabs</a></li>
+                            <li><a href="#2">Library</a></li>
+                            <li><a href="#3">Player</a></li>
+                            <li><a href="#4">Progress</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-link">
+                        <a href="#">About</a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <div class="settings">
         <div class="setting-group">
-            <!-- accidental selector -->
+            <!-- Accidental selector -->
             <div class="accidental-selector">
                 <input type="radio" class="acc-selector" id="flats" name="accidentals" value="flats" checked>
                 <label class="radio_label" for="flats">♭</label>
@@ -22,7 +52,7 @@
             <h4 class="setting-title">accidentals</h4>
         </div>
         <div class="setting-group">
-            <!-- number fret selector -->
+            <!-- Number fret selector -->
             <div class="fret-select">
                 <div class="fret-container">
                     <button id="decrement" class="fret-button" onclick=handlers.changeFretNumber(this)> - </button>
@@ -31,6 +61,15 @@
                 </div>
             </div>
             <h4 class="setting-title">frets</h4>
+        </div>
+        <div class="line"></div>
+        <div class="tuning-group"></div>
+        <div class="line"></div>
+        <div class="setting-group">
+            <button class="reset-button" onclick=tools.reset()> Reset </button>
+        </div>
+        <div class="setting-group">
+            <button class="play-button" onclick=tools.playNotes()> Play </button>
         </div>
     </div>
     <div class="fretboard"></div>

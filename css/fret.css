@@ -24,12 +24,101 @@ body {
 .header-box {
     display: flex;
     flex-direction: row;
+    flex: 1;
     background: rgb(235, 235, 207);
+    min-width: 1500px;
     width: 100%;
-    padding: 35px 0px 35px 0px;
+    padding: 15px 0px 35px 0px;
     margin-bottom: 25px;
     border-bottom: 1px solid rgb(227, 227, 193);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.header-container {
+    display: flex;
+    height: 20px;
+    margin-left: 25px;
+    margin-bottom: 10px;
+    color: rgb(64, 64, 140);
+}
+
+.navbar {
+    margin: auto;
+    padding: 10px;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.nav-links {
+    font-weight: bolder;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    margin-left: 5px; 
+    margin-right: 5px;
+    padding: 5px;
+}
+
+.nav-link, .drop-down li {
+    font-size: 14px;
+    list-style: none;
+    height: 100%;
+    padding: 0.5rem, 1rem;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: currentColor;
+}
+
+.drop-down {
+    position: absolute;
+    display: none;
+    padding: 0.5rem 0.5rem;
+    margin-top: 0.5rem;
+    color: rgb(227, 227, 193);
+    background: rgb(64, 64, 140);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    margin-left: 0.1rem;
+}
+
+.nav-link:hover {
+    background-color: rgb(64, 64, 140);
+    color: rgb(227, 227, 193);
+    border-radius: 0.5rem;
+    transition: background 0.5s;
+    transition: color 0.1s;
+}
+
+.features:hover .drop-down {
+    display: block;
+}
+
+.features a {
+    display: flex;
+}
+
+.features .dropdown-icon {
+    font-size: 20px;
+    position: relative;
+    right: -5px;
+    transform: rotate(0deg);
+    transition: 0.3s ease-in-out all;
+}
+
+.features:hover .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+.drop-down li:hover {
+    background: rgb(64, 64, 140);
+    color: rgb(255, 255, 255);
+    border-radius: 0.5rem;
 }
 
 /* ------------------- SETTINGS ------------------- */
@@ -37,12 +126,20 @@ body {
 .settings {
     display: flex;
     flex-direction: row;
+    flex: 1;
     align-items: center;
     background: rgb(235, 235, 207);
     padding: 25px 25px 15px 25px;
     margin: 0px 25px 25px 25px;
     border: 4px solid rgb(51, 34, 19);
     border-radius: 30px;
+}
+
+.tuning-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
 }
 
 .setting-group {
@@ -57,6 +154,16 @@ body {
     padding-top: 10px;
     font-weight: 500;
     font-size: 15px;
+}
+
+.line {
+    width: 1px;
+    margin-left: 15px;
+    height: 100%;
+    border-bottom: 85px solid rgb(235, 235, 207);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    align-content: center;
+    margin-right: 15px;
 }
 
 .accidental-selector {
@@ -132,6 +239,26 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 #increment {
     padding: 11px 20px 11px 5px;
     border-radius: 0 45px 45px 0;
+}
+
+/* --------------- TUNING SETTINGS --------------- */
+
+.tuning {
+    align-items: center;
+    border-radius: 20%;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    color:rgb(53, 34, 16);
+    font-size: 20px;
+    font-weight: bolder;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.tuning:hover {
+    background:rgb(64, 64, 140);
+    color:rgb(235, 235, 207);
+    transition: background 0.3s ease;
 }
 
 /* ------------------ FRETBOARD ------------------ */
