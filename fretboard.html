@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/fret.css">
+    <link rel="stylesheet" href="./styles/fret.css">
     <link rel="icon" href="./images/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>GuitarBase - Fretboard</title>
 </head>
+
+
 <body>
     <div class="header-box">
         <div class="header-container">
@@ -25,9 +27,8 @@
                         </a>
                         <ul class="drop-down">
                             <li><a href="fretboard.html">Fretboard</a></li>
-                            <li><a href="#2">Library</a></li>
                             <li><a href="#3">Tracker</a></li>
-                            <li><a href="#4">Tabs</a></li>
+                            <li><a href="#4">Tools</a></li>
                         </ul>
                     </li>
                     <li class="nav-link">
@@ -64,7 +65,7 @@
             <h4 class="setting-title">frets</h4>
         </div>
         <div class="line"></div>
-        <div class="tuning-group"></div>
+        <div class="tuning-setting"></div>
         <div class="line"></div>
         <div class="setting-group">
             <button class="reset-button" onclick=tools.reset()> Reset </button>
@@ -75,6 +76,7 @@
     </div>
     <div class="fretboard"></div>
     <div class="numbers"></div>
+
     <script src="./js/fret.js"></script>
 </body>
 </html>

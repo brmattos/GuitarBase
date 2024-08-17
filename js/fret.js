@@ -1,44 +1,5 @@
-const root = document.documentElement;  // access css root vars
 
-const fretboard = document.querySelector(".fretboard");
-const fretNumbers = document.querySelector(".numbers");
-const accidentalSelector = document.querySelector(".accidental-selector");
-const fretNumInput = document.getElementById("fret-input");
-const tuningGroup = document.querySelector(".tuning-group");
-
-const fretmarkDots = [3, 5, 7, 9, 15, 17, 19, 21];
-const notesFlat = ["E", "F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb"];
-const notesSharp = ["E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"];
-
-let allNotes = [];
-for (let i = 0; i < 5; i++) {
-    allNotes.push([i, ["E", "F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb"]]);
-}
-
-let tunings = {
-    /* Possible alternate tunings for each string (relative to flats/sharps arr positions) 
-        - 1 up + 1 root + 4 down
-    */
-    // 1) E Eb D Db C F
-    // 2) B Bb A Ab G C
-    // 3) G Gb F E Eb Ab
-    // 4) D Db C B Bb Eb
-    // 5) A Ab G Gb F Bb
-    // 6) E Eb D Db C F
-    1: [0, 11, 10, 9, 8, 1],
-    2: [7, 6, 5, 4, 2, 8],    
-    3: [3, 2, 1, 11, 4],     
-    4: [10, 9, 8, 7, 6, 11],  
-    5: [5, 4, 3, 2, 1, 6],    
-    6: [0, 11, 10, 9, 8, 1]   
-}
-
-// IMPORTANT VARS
-let num_frets = 12;
-let accidentals = "flats";
-let tuning = [0, 7, 3, 10, 5, 0];  // high E -> low E
-
-// ---------------------------------------------------------------------------------------------
+// (function () {
 
 // Setup the audio, {data-note : audio}  (COME BACK TO FIX THIS)!!!!
 const fretSounds = {
@@ -57,11 +18,53 @@ const fretSounds = {
     12: new Audio("./sounds/E2.m4a")
 };
 
+const root = document.documentElement;  // access css root vars
+const fretboard = document.querySelector(".fretboard");
+const fretNumbers = document.querySelector(".numbers");
+const accidentalSelector = document.querySelector(".accidental-selector");
+const fretNumInput = document.getElementById("fret-input");
+const tuningSetting = document.querySelector(".tuning-setting");
+const notesFlat = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+const notesSharp = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+const fretmarkDots = [3, 5, 7, 9, 15, 17, 19, 21];
+
+let tunings = {
+    /* Possible alternate tunings for each string (relative to flats/sharps arr positions) */
+    // {string : possible tunings}
+    // - 1 up + 1 root + 4 down
+    1: [4, 3, 2, 1, 0, 5],    // E Eb D Db C F
+    2: [11, 10, 9, 8, 7, 6],  // B Bb A Ab G C
+    3: [7, 6, 5, 4, 3, 2],    // G Gb F E Eb Ab
+    4: [2, 1, 0, 11, 10, 9],  // D Db C B Bb Eb
+    5: [9, 8, 7, 6, 5, 4],    // A Ab G Gb F Bb
+    6: [4, 3, 2, 1, 0, 5]     // E Eb D Db C F
+}
+
+let noteSet = {
+    /* track all selected notes (can only have one selected on each string)*/
+    // { string : [currently selected note, octave] }
+    1: ["", 0],
+    2: ["", 0],
+    3: ["", 0],
+    4: ["", 0],
+    5: ["", 0],
+    6: ["", 0]
+}
+
+// IMPORTANT VARS
+let num_frets = 12;
+let accidentals = "flats";
+let tuning = [4, 11, 7, 2, 9, 4];  // high E -> low E
+
+// ---------------------------------------------------------------------------------------------
+
+/* ----------------------------- MAIN ------------------------------ */
+
 const app = {
     init() {
         this.setupFretboard();
         this.setupEventListeners();
-        handlers.createTuning();
+        handlers.setupTuningSection();
         audio.loadAudio();
     },
 
@@ -86,70 +89,83 @@ const app = {
                 str.appendChild(note_fret);
 
                 // Setup the tuning
-                let note_name = this.generateNoteNames((fret + tuning[i]), accidentals);
-                note_fret.setAttribute('data-note', note_name);
+                let note_name = tools.generateNoteNames((fret + tuning[i]), accidentals);
+                note_fret.setAttribute("data-note", note_name);
+                note_fret.setAttribute("octave", Math.floor());
 
                 // Setup the fret numbers
-                if (i === 0) {
+                if (i == 0) {
                     let num = tools.createElement("div", fret);
                     num.classList.add("fret-number");
                     fretNumbers.appendChild(num);
                 }
                 
-                // Add the single fretmarks
-                if (i == 0 && fretmarkDots.indexOf(fret) !== -1) {
-                    note_fret.classList.add("single-fretmark");
-                }
-
-                // Add the double fretmarks
-                if (i == 0 && fret == 12) {
-                    let double_fretmark = tools.createElement("div");
-                    double_fretmark.classList.add("double-fretmark");
-                    note_fret.appendChild(double_fretmark);
+                // Add the fretmarks (single & double)
+                if (i == 0) {
+                    if (fretmarkDots.indexOf(fret) != -1) {
+                        note_fret.classList.add("single-fretmark");
+                    } else if (fret == 12) {
+                        let double_fretmark = tools.createElement("div");
+                        double_fretmark.classList.add("double-fretmark");
+                        note_fret.appendChild(double_fretmark);
+                    }
                 }
             }
-        }
-    },
-
-    generateNoteNames(index, accidentals) {
-        /* Get the note at a given fret */
-        index %= 12;
-        if (accidentals === "flats") {
-            return notesFlat[index];
-        } else if (accidentals === "sharps") {
-            return notesSharp[index];
         }
     },
 
     setupEventListeners() {
-        fretboard.addEventListener("click", (event) => {
-            if (event.target.classList.contains("note-fret")) {
-                // Toggle the visibility by checking current opacity
-                const currentOpacity = getComputedStyle(event.target).getPropertyValue("--noteOpacity");
-                
-                // Toggle between visible (opacity 1) and hidden (opacity 0)
-                if (currentOpacity == 1) {
-                    event.target.style.setProperty("--noteOpacity", 0);
-                } else {
-                    event.target.style.setProperty("--noteOpacity", 1);
-                }
-            }
-        });
-
-        accidentalSelector.addEventListener("click", (event) => {
-            if (event.target.classList.contains("acc-selector")) {
-                if (event.target.value !== accidentals) {
-                    // Changed the button
-                    accidentals = event.target.value;
-                    tools.clearNotes();
-                    this.setupFretboard();  // reset the fretboard
-                }
-            } else {
-                return;
-            }
-        });
+        fretboard.addEventListener("click", listeners.fretboardClick);
+        accidentalSelector.addEventListener("click", listeners.selectAccidental);
     }
 }
+
+/* --------------------------- LISTENERS ---------------------------- */
+
+const listeners = {
+    fretboardClick(event) {
+        if (event.target.classList.contains("note-fret")) {
+            
+            let string = event.target.parentElement.id;
+            let note = event.target.getAttribute("data-note");
+            const currentOpacity = getComputedStyle(event.target).getPropertyValue("--noteOpacity");
+
+            if (currentOpacity == 0) {
+                // Click on (VISIBLE)
+                if (noteSet[string] != "") {
+                    // replace previously selected note
+                    let stringNotes = event.target.parentElement.querySelectorAll(".note-fret");
+                    stringNotes.forEach(child => {
+                        child.style.setProperty("--noteOpacity", 0);  // de-toggle note
+                    });
+                }
+
+                // update the note
+                noteSet[string] = [note, 0];
+                event.target.style.setProperty("--noteOpacity", 1);   // toggle note
+            } else {
+                // Click off (HIDDEN)
+                noteSet[string] = ["", 0];
+                event.target.style.setProperty("--noteOpacity", 0);  // de-toggle note
+            }
+        }
+    },
+
+    selectAccidental(event) {
+        if (event.target.classList.contains("acc-selector")) {
+            if (event.target.value != accidentals) {
+                // Changed the button
+                accidentals = event.target.value;
+                tools.clearNotes();
+                app.setupFretboard();  // reset the fretboard
+            }
+        } else {
+            return;
+        }
+    }
+}
+
+/* --------------------------- HANDLERS ------------------------------ */
 
 const handlers = {
     changeFretNumber(btn) {
@@ -167,20 +183,20 @@ const handlers = {
         }
     },
 
-    createTuning() {
+    setupTuningSection() {
         /* For the tuning section of the settings, create each individual select drop-down */
-        tuningGroup.innerHTML = "";
+        tuningSetting.innerHTML = "";
         for (let i = 5; i >= 0; i--) {
 
             // Create the div for the column
             let group = tools.createElement("div");
             group.classList.add("setting-group");
-            tuningGroup.appendChild(group);
+            tuningSetting.appendChild(group);
 
             // Create the div for the respective note str
             // (start off at given tuning, EADGBE)
             let str_tuning;
-            if (accidentals === "flats") {
+            if (accidentals == "flats") {
                 note = notesFlat[tuning[i]];
             } else {
                 note = notesSharp[tuning[i]];
@@ -203,10 +219,19 @@ const handlers = {
                 }
 
                 let new_note = "";
-                if (accidentals === "flats") {
+                if (accidentals == "flats") {
                     new_note = notesFlat[tunings[string_number][pos]];
                 } else {
                     new_note = notesSharp[tunings[string_number][pos]];
+                }
+
+                // Change the padding depending on note
+                if (new_note.length == 2) {
+                    str_tuning.style.padding = "20px 14px 20px 14px";
+                } else if (new_note == "F") {
+                    str_tuning.style.padding = "20px 21px 20px 21px";
+                } else {
+                    str_tuning.style.padding = "20px";
                 }
 
                 this.innerHTML = new_note;
@@ -220,6 +245,51 @@ const handlers = {
         }
     }
 }
+
+/* ---------------------------- TOOLS ------------------------------ */
+
+const tools = {
+    /* Creation tool methods */
+    createElement(element, content) {
+        element = document.createElement(element);
+        if (arguments.length > 1) {
+            // passed in content
+            element.innerHTML = content;
+        }
+        return element;
+    },
+
+    generateNoteNames(index, accidentals) {
+        /* Get the note at a given fret */
+        octave = Math.floor(index / 12);
+        index %= 12;
+        if (accidentals == "flats") {
+            return notesFlat[index];
+        } else if (accidentals == "sharps") {
+            return notesSharp[index];
+        }
+    },
+
+    clearNotes() {
+        const allNotes = document.querySelectorAll(".note-fret");
+            allNotes.forEach(note => {
+                // Hide all notes
+                note.style.setProperty("--noteOpacity", 0);
+            });
+    },
+
+    reset() {
+        tuning = [4, 11, 7, 2, 9, 4];
+        Object.keys(noteSet).forEach(str => noteSet[str] = ["", 0]);
+        num_frets = 12;
+        fretNumInput.setAttribute("value", "12");
+        app.setupFretboard();
+        handlers.setupTuningSection();
+        this.clearNotes();
+    }
+}
+
+/* ---------------------------- AUDIO ------------------------------ */
 
 const audio = {
     loadAudio() {
@@ -239,37 +309,6 @@ const audio = {
     }
 }
 
-const tools = {
-    /* Creation tool methods */
-    createElement(element, content) {
-        element = document.createElement(element);
-        if (arguments.length > 1) {
-            // passed in content
-            element.innerHTML = content;
-        }
-        return element;
-    },
-
-    clearNotes() {
-        const allNotes = document.querySelectorAll(".note-fret");
-            allNotes.forEach(note => {
-                // Hide all notes
-                note.style.setProperty("--noteOpacity", 0);
-            });
-    },
-
-    reset() {
-        tuning = [0, 7, 3, 10, 5, 0];
-        num_frets = 12;
-        fretNumInput.setAttribute("value", "12");
-        app.setupFretboard();
-        handlers.createTuning();
-        this.clearNotes();
-    },
-
-    updateStringNote() {
-
-    }
-}
-
 app.init();
+
+// })();
