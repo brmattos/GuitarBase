@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Roboto Mono", monospace;
+    background: rgb(235, 235, 207);
+}
+
+/* ----------------- HEADER MENU ----------------- */
+
+.logo-img {
+    width: 50px;
+    height: 50px;
+    float: right;
+    margin-left: 1000px;
+}
+
+.header-box {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    background: rgb(235, 235, 207);
+    min-width: 1500px;
+    width: 100%;
+    padding: 15px 0px 15px 0px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgb(227, 227, 193);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.header-container {
+    display: flex;
+    height: 20px;
+    margin-left: 25px;
+    color: rgb(64, 64, 140);
+    padding-bottom: 30px;
+}
+
+.navbar {
+    margin: auto;
+    padding: 10px;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.nav-links {
+    font-weight: bolder;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    margin-left: 5px; 
+    margin-right: 5px;
+    padding: 5px;
+}
+
+.nav-link, .drop-down li {
+    font-size: 14px;
+    list-style: none;
+    height: 100%;
+    padding: 1rem, 1rem;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: currentColor;
+}
+
+.drop-down {
+    position: absolute;
+    display: none;
+    padding: 0.5rem 0.7rem;
+    margin-top: 0.5rem;
+    color: rgb(227, 227, 193);
+    background: rgb(64, 64, 140);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+}
+
+.nav-link:hover {
+    background-color: rgb(64, 64, 140);
+    color: rgb(227, 227, 193);
+    border-radius: 0.5rem;
+    transition: background 0.5s;
+    transition: color 0.1s;
+}
+
+.features:hover .drop-down {
+    display: block;
+}
+
+.features a {
+    display: flex;
+}
+
+.features .dropdown-icon {
+    font-size: 20px;
+    position: relative;
+    right: -5px;
+    transform: rotate(0deg);
+    transition: 0.3s ease-in-out all;
+}
+
+.features:hover .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+.drop-down li:hover {
+    background: rgb(64, 64, 140);
+    color: rgb(255, 255, 255);
+    border-radius: 0.5rem;
+}

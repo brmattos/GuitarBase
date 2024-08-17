@@ -3,19 +3,19 @@
 
 // Setup the audio, {data-note : audio}  (COME BACK TO FIX THIS)!!!!
 const fretSounds = {
-    0: new Audio("./sounds/E1.m4a"),
-    1: new Audio("./sounds/F1.m4a"),
-    2: new Audio("./sounds/FS1.m4a"),
-    3: new Audio("./sounds/G1.m4a"),
-    4: new Audio("./sounds/GS1.m4a"),
-    5: new Audio("./sounds/A1.m4a"),
-    6: new Audio("./sounds/AS1.m4a"),
-    7: new Audio("./sounds/B1.m4a"),
-    8: new Audio("./sounds/C1.m4a"),
-    9: new Audio("./sounds/CS1.m4a"),
-    10: new Audio("./sounds/D1.m4a"),
-    11: new Audio("./sounds/DS1.m4a"),
-    12: new Audio("./sounds/E2.m4a")
+    0: new Audio("../sounds/E1.m4a"),
+    1: new Audio("../sounds/F1.m4a"),
+    2: new Audio("../sounds/FS1.m4a"),
+    3: new Audio("../sounds/G1.m4a"),
+    4: new Audio("../sounds/GS1.m4a"),
+    5: new Audio("../sounds/A1.m4a"),
+    6: new Audio("../sounds/AS1.m4a"),
+    7: new Audio("../sounds/B1.m4a"),
+    8: new Audio("../sounds/C1.m4a"),
+    9: new Audio("../sounds/CS1.m4a"),
+    10: new Audio("../sounds/D1.m4a"),
+    11: new Audio("../sounds/DS1.m4a"),
+    12: new Audio("../sounds/E2.m4a")
 };
 
 const root = document.documentElement;  // access css root vars
