@@ -80,6 +80,7 @@ a {
     background: rgb(64, 64, 140);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
+    justify-content: space-between;
 }
 
 .nav-link:hover {
