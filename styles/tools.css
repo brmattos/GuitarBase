@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap');
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    color: rgb(115, 83, 58);
+    font-family: "Raleway", sans-serif;
+    user-select: none;
+}
+
+.metronome {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 300px;
+    border: 2px;
+    padding: 50px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5rem;
+    justify-content: space-between;
+}
+
+.bpm-display {
+    width: 100%;
+    text-align: center;
+    color: rgb(115, 83, 58);
+    font-weight: bold;
+}
+
+.bpm-display .tempo {
+    font-size: 6em;
+}
+
+.tempo-speed-text {
+    font-size: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.tempo-settings {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tempo-settings .tempo-adjust {
+    cursor: pointer;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgb(115, 83, 58);
+    font-size: 20px;
+}
+
+.tempo-settings .tempo-adjust:hover, .measures .measure-adjust:hover {
+    background: rgb(115, 83, 58);
+    color: rgb(235, 235, 207);
+}
+
+.tempo-settings .decrease {
+    line-height: 28px;
+}
+
+.tempo-settings .increase {
+    line-height: 25px;
+}
+
+/* WEB BROWSER STYLES */
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    width: 70%;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: rgb(115, 83, 58);
+    cursor: pointer;
+    margin-top: -8px;
+}
+input[type=range]::-moz-range-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgb(115, 83, 58);
+    cursor: pointer;
+    border: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 1px;
+    background: rgba(115, 83, 58, 0.232);
+}
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 1px;
+    background: rgba(115, 83, 58, 0.232);
+}
+
+.start-stop-btn {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    margin: 10px auto;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 1rem;
+    background: rgb(115, 83, 58);
+    color: rgb(235, 235, 207);
+    cursor: pointer;
+}
+
+.start-stop-btn:hover {
+    background: rgb(84, 60, 49);
+}
+
+.measures {
+    display: flex;
+    justify-content: center;
+}
+
+.measures .measure-adjust {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    margin: 0 5px;
+}
+
+.measures .increase {
+    line-height: 17px;
+}
+
+.bpm-text {
+    margin-top: 10px;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    text-align: center;
+}
