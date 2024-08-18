@@ -1,62 +1,21 @@
 
-(function () {
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+// (function () {
 
-// Setup the audio, {data-note : audio}
+// Setup the audio, {data-note : audio}  (COME BACK TO FIX THIS)!!!!
 const noteSounds = {
-    0: new Audio("../sounds/C1.m4a"),
-    1: new Audio("../sounds/CS1.m4a"),
-    2: new Audio("../sounds/D1.m4a"),
-    3: new Audio("../sounds/DS1.m4a"),
-    4: new Audio("../sounds/E1.m4a"),
-    5: new Audio("../sounds/F1.m4a"),
-    6: new Audio("../sounds/FS1.m4a"),
-    7: new Audio("../sounds/G1.m4a"),
-    8: new Audio("../sounds/GS1.m4a"),
-    9: new Audio("../sounds/A1.m4a"),
-    10: new Audio("../sounds/AS1.m4a"),
-    11: new Audio("../sounds/B1.m4a"),
-
-    12: new Audio("../sounds/C2.mp3"),
-    13: new Audio("../sounds/CS2.m4a"),
-    14: new Audio("../sounds/D2.m4a"),
-    15: new Audio("../sounds/DS2.m4a"),
-    16: new Audio("../sounds/E2.m4a"),
-    17: new Audio("../sounds/F2.m4a"),
-    18: new Audio("../sounds/FS2.m4a"),
-    19: new Audio("../sounds/G2.m4a"),
-    20: new Audio("../sounds/GS2.m4a"),
-    21: new Audio("../sounds/A2.m4a"),
-    22: new Audio("../sounds/AS2.m4a"),
-    23: new Audio("../sounds/B2.m4a"),
-
-    24: new Audio("../sounds/C3.mp3"),
-    25: new Audio("../sounds/CS3.mp3"),
-    26: new Audio("../sounds/D3.mp3"),
-    27: new Audio("../sounds/DS3.mp3"),
-    28: new Audio("../sounds/E3.m4a"),
-    29: new Audio("../sounds/F3.m4a"),
-    30: new Audio("../sounds/FS3.m4a"),
-    31: new Audio("../sounds/G3.m4a"),
-    32: new Audio("../sounds/GS3.m4a"),
-    33: new Audio("../sounds/A3.m4a"),
-    34: new Audio("../sounds/AS3.m4a"),
-    35: new Audio("../sounds/B3.m4a"),
-
-    36: new Audio("../sounds/C4.mp3"),
-    37: new Audio("../sounds/CS4.mp3"),
-    38: new Audio("../sounds/D4.mp3"),
-    39: new Audio("../sounds/DS4.m4a"),
-    40: new Audio("../sounds/E4.m4a"),
-    41: new Audio("../sounds/F4.m4a"),
-    42: new Audio("../sounds/FS4.m4a"),
-    43: new Audio("../sounds/G4.m4a"),
-    44: new Audio("../sounds/GS4.m4a"),
-    45: new Audio("../sounds/A4.m4a"),
-    46: new Audio("../sounds/AS4.m4a"),
-    47: new Audio("../sounds/B4.m4a"),
+    0: new Audio("./sounds/E1.m4a"),
+    1: new Audio("./sounds/F1.m4a"),
+    2: new Audio("./sounds/FS1.m4a"),
+    3: new Audio("./sounds/G1.m4a"),
+    4: new Audio("./sounds/GS1.m4a"),
+    5: new Audio("./sounds/A1.m4a"),
+    6: new Audio("./sounds/AS1.m4a"),
+    7: new Audio("./sounds/B1.m4a"),
+    8: new Audio("./sounds/C1.m4a"),
+    9: new Audio("./sounds/CS1.m4a"),
+    10: new Audio("./sounds/D1.m4a"),
+    11: new Audio("./sounds/DS1.m4a"),
+    12: new Audio("./sounds/E2.m4a")
 };
 
 const root = document.documentElement;  // access css root vars
@@ -95,8 +54,7 @@ let noteSet = {
 // IMPORTANT VARS
 let num_frets = 12;
 let accidentals = "flats";
-let tuning = [4, 11, 7, 2, 9, 4];      // high E -> low E
-let base_octaves = [3, 2, 2, 1, 1, 1]  // high E -> low E (4 octaves)
+let tuning = [4, 11, 7, 2, 9, 4];  // high E -> low E
 
 // ---------------------------------------------------------------------------------------------
 
@@ -124,7 +82,6 @@ const app = {
             str.classList.add("string");
             fretboard.appendChild(str);
 
-            let octave = base_octaves[i];
             for (let fret = 0; fret <= num_frets; fret++) {
                 // Add the frets to the fretboard
                 let note_fret = tools.createElement("div");
@@ -134,13 +91,7 @@ const app = {
                 // Setup the tuning
                 let note_name = tools.generateNoteNames((fret + tuning[i]), accidentals);
                 note_fret.setAttribute("data-note", note_name);
-
-                // Set up the octave
-                
-                if (note_name == "E" && fret > 0) {
-                    octave += 1;
-                }
-                note_fret.setAttribute("octave", octave);
+                note_fret.setAttribute("octave", Math.floor());
 
                 // Setup the fret numbers
                 if (i == 0) {
@@ -177,7 +128,6 @@ const listeners = {
             
             let string = event.target.parentElement.id;
             let note = event.target.getAttribute("data-note");
-            let octave = event.target.getAttribute("octave");
             const currentOpacity = getComputedStyle(event.target).getPropertyValue("--noteOpacity");
 
             if (currentOpacity == 0) {
@@ -191,7 +141,7 @@ const listeners = {
                 }
 
                 // update the note
-                noteSet[string] = [note, parseInt(octave, 10)];
+                noteSet[string] = [note, 0];
                 event.target.style.setProperty("--noteOpacity", 1);   // toggle note
             } else {
                 // Click off (HIDDEN)
@@ -284,13 +234,6 @@ const handlers = {
                     str_tuning.style.padding = "20px";
                 }
 
-                // Update the octave when going below orig tuning
-                if (pos == 0 || pos == 5) {
-                    base_octaves[string_number - 1] = 1;
-                } else {
-                    base_octaves[string_number - 1] = 0;
-                }
-
                 this.innerHTML = new_note;
                 this.setAttribute("value", pos);
                 tuning[string_number - 1] = tunings[string_number][pos];
@@ -350,41 +293,22 @@ const tools = {
 
 const audio = {
     loadAudio() {
-        for (const fret in noteSounds) {
-            if (noteSounds[fret]) {
+        window.onload = function() {
+            for (const fret in noteSounds) {
                 noteSounds[fret].load();  // Preload the audio file
             }
-        }
+        };
     },
 
-    async playNotes() {
-        let index, octave;
-        let note_count = 6;
-        for (let i = 6; i > 0; i--) {
-            note_count -= 1;
-            if (noteSet[i][0] != "") {
-                if (accidentals == "flats") {
-                    index = notesFlat.indexOf(noteSet[i][0]);
-                } else {
-                    index = notesSharp.indexOf(noteSet[i][0]);
-                }
+    playNote(fretNumber) {
+        noteSounds[fretNumber].play();
+    },
 
-                octave = noteSet[i][1];
-                soundKey = parseInt(index + ((octave - 1) * 12));
-
-                if (noteSounds[soundKey]) {
-                    noteSounds[soundKey].play();
-                    setTimeout(() => {
-                        // Timeout the file
-                        noteSounds[soundKey].pause();
-                        noteSounds[soundKey].currentTime = 0;
-                    }, 1550);
-                    await sleep(20);
-                }
-            }
-        }
+    playNotes() {
+        this.playNote();
     }
 }
 
 app.init();
-})();
+
+// })();
