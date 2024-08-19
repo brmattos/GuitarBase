@@ -1,7 +1,12 @@
-// (function () {
-// })();
+/*
+File: tools.js
+Description:
+    backend for the tools page, implements the metronome
+*/
 
 import Timer from './timer.js';
+
+(function () {
 
 const tempo = document.querySelector(".tempo");
 const tempoText = document.querySelector('.tempo-speed-text');
@@ -127,3 +132,4 @@ const audio = {
 
 const metronome = new Timer(audio.playClick, 60000 / bpm, { immediate: true });
 app.init();
+})();
