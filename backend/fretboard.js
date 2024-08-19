@@ -65,6 +65,10 @@ const fretNumbers = document.querySelector(".numbers");
 const accidentalSelector = document.querySelector(".accidental-selector");
 const fretNumInput = document.getElementById("fret-input");
 const tuningSetting = document.querySelector(".tuning-setting");
+const increaseFret = document.getElementById("increment");
+const decreaseFret = document.getElementById("decrement");
+const resetBtn = document.querySelector(".reset-button");
+const playBtn = document.querySelector(".play-button");
 const notesFlat = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
 const notesSharp = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 const fretmarkDots = [3, 5, 7, 9, 15, 17, 19, 21];
@@ -106,7 +110,7 @@ const app = {
     init() {
         this.setupFretboard();
         this.setupEventListeners();
-        handlers.setupTuningSection();
+        this.setupTuningSection();
         audio.loadAudio();
     },
 
@@ -163,9 +167,40 @@ const app = {
         }
     },
 
+    setupTuningSection() {
+        /* For the tuning section of the settings, create each individual select drop-down */
+        tuningSetting.innerHTML = "";
+        for (let i = 5; i >= 0; i--) {
+
+            // Create the div for the column
+            let group = tools.createElement("div");
+            group.classList.add("setting-group");
+            tuningSetting.appendChild(group);
+
+            // Create the div for the respective note str
+            // (start off at given tuning, EADGBE)
+            let str_tuning;
+            if (accidentals == "flats") {
+                note = notesFlat[tuning[i]];
+            } else {
+                note = notesSharp[tuning[i]];
+            }
+            str_tuning = tools.createElement("button", note);
+            str_tuning.value = 0;
+            str_tuning.id = (i+1).toString();
+            str_tuning.classList.add("tuning");
+            str_tuning.addEventListener("click", listeners.tuningChange)
+            group.appendChild(str_tuning);
+        }
+    },
+
     setupEventListeners() {
         fretboard.addEventListener("click", listeners.fretboardClick);
         accidentalSelector.addEventListener("click", listeners.selectAccidental);
+        resetBtn.addEventListener("click", listeners.reset);
+        playBtn.addEventListener("click", listeners.playNotes);
+        increaseFret.addEventListener("click", listeners.changeFretNumber);
+        decreaseFret.addEventListener("click", listeners.changeFretNumber);
     }
 }
 
@@ -206,99 +241,100 @@ const listeners = {
             if (event.target.value != accidentals) {
                 // Changed the button
                 accidentals = event.target.value;
+                Object.keys(noteSet).forEach(str => noteSet[str] = ["", 0]);
                 tools.clearNotes();
                 app.setupFretboard();  // reset the fretboard
             }
-        } else {
-            return;
         }
-    }
-}
+    },
 
-/* --------------------------- HANDLERS ------------------------------ */
+    reset() {
+        tuning = [4, 11, 7, 2, 9, 4];
+        Object.keys(noteSet).forEach(str => noteSet[str] = ["", 0]);
+        num_frets = 12;
+        fretNumInput.setAttribute("value", "12");
+        app.setupFretboard();
+        app.setupTuningSection();
+        tools.clearNotes();
+    },
 
-const handlers = {
-    changeFretNumber(btn) {
-        let id = btn.id;
+    tuningChange(event) {
+        let pos = parseInt(event.target.getAttribute("value"), 10);
+        let string_number = parseInt(event.target.getAttribute("id"), 10);
+
+        let length = tunings[1].length;
+        if (pos < (length - 1)) {
+            pos += 1  // can iterate forward
+        } else {
+            pos = 0  // need to go back to start (standard)
+        }
+
+        let new_note = "";
+        if (accidentals == "flats") {
+            new_note = notesFlat[tunings[string_number][pos]];
+        } else {
+            new_note = notesSharp[tunings[string_number][pos]];
+        }
+
+        // Change the padding depending on note
+        if (new_note.length == 2) {
+            event.target.style.padding = "20px 14px 20px 14px";
+        } else if (new_note == "F") {
+            event.target.style.padding = "20px 21px 20px 21px";
+        } else {
+            event.target.style.padding = "20px";
+        }
+
+        // Update the octave when going below orig tuning
+        if (pos == 0 || pos == 5) {
+            base_octaves[string_number - 1] = 1;
+        } else {
+            base_octaves[string_number - 1] = 0;
+        }
+
+        event.target.innerHTML = new_note;
+        event.target.setAttribute("value", pos);
+        tuning[string_number - 1] = tunings[string_number][pos];
+        tools.clearNotes();
+        app.setupFretboard();
+    },
+
+    changeFretNumber(event) {
+        let id = event.target.id;
         let min = fretNumInput.min;
         let max = fretNumInput.max;
         let val = fretNumInput.value;
-        
         let direction = (id == "increment") ? 1 : -1
         let newVal = parseInt(val) + direction;
         if (newVal >= min && newVal <= max) {
             fretNumInput.setAttribute("value", newVal);
             num_frets = newVal;
             app.setupFretboard();
+            Object.keys(noteSet).forEach(str => noteSet[str] = ["", 0]);
         }
     },
 
-    setupTuningSection() {
-        /* For the tuning section of the settings, create each individual select drop-down */
-        tuningSetting.innerHTML = "";
-        for (let i = 5; i >= 0; i--) {
-
-            // Create the div for the column
-            let group = tools.createElement("div");
-            group.classList.add("setting-group");
-            tuningSetting.appendChild(group);
-
-            // Create the div for the respective note str
-            // (start off at given tuning, EADGBE)
-            let str_tuning;
-            if (accidentals == "flats") {
-                note = notesFlat[tuning[i]];
-            } else {
-                note = notesSharp[tuning[i]];
-            }
-            str_tuning = tools.createElement("button", note);
-            str_tuning.value = 0;
-            str_tuning.id = (i+1).toString();
-            str_tuning.classList.add("tuning");
-
-            str_tuning.onclick = function() {
-                /* CLICK - (update tuning, rotating) */ 
-                let pos = parseInt(this.getAttribute("value"), 10);
-                let string_number = parseInt(this.getAttribute("id"), 10);
-
-                let length = tunings[1].length;
-                if (pos < (length - 1)) {
-                    pos += 1  // can iterate forward
-                } else {
-                    pos = 0  // need to go back to start (standard)
-                }
-
-                let new_note = "";
+    async playNotes() {
+        audio.stopAllAudio();
+        let index, octave;
+        let note_count = 6;
+        for (let i = 6; i > 0; i--) {
+            note_count -= 1;
+            if (noteSet[i][0] != "") {
                 if (accidentals == "flats") {
-                    new_note = notesFlat[tunings[string_number][pos]];
+                    index = notesFlat.indexOf(noteSet[i][0]);
                 } else {
-                    new_note = notesSharp[tunings[string_number][pos]];
+                    index = notesSharp.indexOf(noteSet[i][0]);
                 }
 
-                // Change the padding depending on note
-                if (new_note.length == 2) {
-                    str_tuning.style.padding = "20px 14px 20px 14px";
-                } else if (new_note == "F") {
-                    str_tuning.style.padding = "20px 21px 20px 21px";
-                } else {
-                    str_tuning.style.padding = "20px";
-                }
+                octave = noteSet[i][1];
+                soundKey = parseInt(index + ((octave - 1) * 12));
 
-                // Update the octave when going below orig tuning
-                if (pos == 0 || pos == 5) {
-                    base_octaves[string_number - 1] = 1;
-                } else {
-                    base_octaves[string_number - 1] = 0;
+                if (noteSounds[soundKey]) {
+                    noteSounds[soundKey].play();
+                    await sleep(30);
                 }
-
-                this.innerHTML = new_note;
-                this.setAttribute("value", pos);
-                tuning[string_number - 1] = tunings[string_number][pos];
-                tools.clearNotes();
-                app.setupFretboard();
             }
-
-            group.appendChild(str_tuning);
         }
     }
 }
@@ -329,21 +365,11 @@ const tools = {
 
     clearNotes() {
         const allNotes = document.querySelectorAll(".note-fret");
-            allNotes.forEach(note => {
-                // Hide all notes
-                note.style.setProperty("--noteOpacity", 0);
-            });
+        allNotes.forEach(note => {
+            // Hide all notes
+            note.style.setProperty("--noteOpacity", 0);
+        });
     },
-
-    reset() {
-        tuning = [4, 11, 7, 2, 9, 4];
-        Object.keys(noteSet).forEach(str => noteSet[str] = ["", 0]);
-        num_frets = 12;
-        fretNumInput.setAttribute("value", "12");
-        app.setupFretboard();
-        handlers.setupTuningSection();
-        this.clearNotes();
-    }
 }
 
 /* ---------------------------- AUDIO ------------------------------ */
@@ -357,33 +383,15 @@ const audio = {
         }
     },
 
-    async playNotes() {
-        let index, octave;
-        let note_count = 6;
-        for (let i = 6; i > 0; i--) {
-            note_count -= 1;
-            if (noteSet[i][0] != "") {
-                if (accidentals == "flats") {
-                    index = notesFlat.indexOf(noteSet[i][0]);
-                } else {
-                    index = notesSharp.indexOf(noteSet[i][0]);
-                }
-
-                octave = noteSet[i][1];
-                soundKey = parseInt(index + ((octave - 1) * 12));
-
-                if (noteSounds[soundKey]) {
-                    noteSounds[soundKey].play();
-                    setTimeout(() => {
-                        // Timeout the file
-                        noteSounds[soundKey].pause();
-                        noteSounds[soundKey].currentTime = 0;
-                    }, 1550);
-                    await sleep(20);
-                }
+    stopAllAudio() {
+        // Stop all playing audio
+        for (const fret in noteSounds) {
+            if (noteSounds[fret]) {
+                noteSounds[fret].pause();
+                noteSounds[fret].currentTime = 0;
             }
         }
-    }
+    },
 }
 
 app.init();
