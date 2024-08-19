@@ -1,5 +1,12 @@
+/*
+File: fretboard.js
+Description:
+    backend for the interactive fretboard page,
+    change tuning, number of frets, accidental
+    and select/play notes & chords on a fretboard
+*/
 
-// (function () {
+(function () {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -332,7 +339,7 @@ const listeners = {
 
                 if (noteSounds[soundKey]) {
                     noteSounds[soundKey].play();
-                    await sleep(30);
+                    await sleep(50);
                 }
             }
         }
@@ -395,4 +402,4 @@ const audio = {
 }
 
 app.init();
-// })();
+})();
