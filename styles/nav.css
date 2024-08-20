@@ -67,7 +67,6 @@ body {
     font-size: 14px;
     list-style: none;
     height: 100%;
-    padding: 1rem, 1rem;
     font-weight: 300;
     cursor: pointer;
 }
@@ -80,8 +79,9 @@ a {
 .drop-down {
     position: absolute;
     display: none;
-    padding: 0.5rem 0.7rem;
-    margin-top: 0.5rem;
+    padding: 0.4rem 0.4rem;
+    padding-right: 0.4rem;
+    margin-top: 0.2rem;
     color: rgb(227, 227, 193);
     background: rgb(64, 64, 140);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

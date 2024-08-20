@@ -6,13 +6,19 @@ Description:
     and select/play notes & chords on a fretboard
 */
 
-(function () {
+// (function () {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // Setup the audio, {data-note : audio}
 const noteSounds = {
+
+    "-9": new Audio("../sounds/DS0.mp3"),
+    "-10": new Audio("../sounds/D0.mp3"),
+    "-11": new Audio("../sounds/CS0.mp3"),
+    "-12": new Audio("../sounds/C0.mp3"),
+
     0: new Audio("../sounds/C1.m4a"),
     1: new Audio("../sounds/CS1.m4a"),
     2: new Audio("../sounds/D1.m4a"),
@@ -105,7 +111,7 @@ let noteSet = {
 
 // IMPORTANT VARS
 let num_frets = 12;
-let accidentals = "flats";
+let accidentals = "sharps";
 let tuning = [4, 11, 7, 2, 9, 4];      // high E -> low E
 let base_octaves = [3, 2, 2, 1, 1, 1]  // high E -> low E (4 octaves)
 
@@ -196,12 +202,14 @@ const app = {
             str_tuning.value = 0;
             str_tuning.id = (i+1).toString();
             str_tuning.classList.add("tuning");
-            str_tuning.addEventListener("click", listeners.tuningChange)
+            str_tuning.addEventListener("click", listeners.changeTuning)
             group.appendChild(str_tuning);
         }
     },
 
     setupEventListeners() {
+        document.addEventListener("keydown", listeners.enter);
+        document.addEventListener("keydown", listeners.backspace);
         fretboard.addEventListener("click", listeners.fretboardClick);
         accidentalSelector.addEventListener("click", listeners.selectAccidental);
         resetBtn.addEventListener("click", listeners.reset);
@@ -216,7 +224,6 @@ const app = {
 const listeners = {
     fretboardClick(event) {
         if (event.target.classList.contains("note-fret")) {
-            
             let string = event.target.parentElement.id;
             let note = event.target.getAttribute("data-note");
             let octave = event.target.getAttribute("octave");
@@ -256,16 +263,16 @@ const listeners = {
     },
 
     reset() {
+        num_frets = 12;
         tuning = [4, 11, 7, 2, 9, 4];
         Object.keys(noteSet).forEach(str => noteSet[str] = ["", 0]);
-        num_frets = 12;
         fretNumInput.setAttribute("value", "12");
         app.setupFretboard();
         app.setupTuningSection();
         tools.clearNotes();
     },
 
-    tuningChange(event) {
+    changeTuning(event) {
         let pos = parseInt(event.target.getAttribute("value"), 10);
         let string_number = parseInt(event.target.getAttribute("id"), 10);
 
@@ -292,11 +299,13 @@ const listeners = {
             event.target.style.padding = "20px";
         }
 
-        // Update the octave when going below orig tuning
-        if (pos == 0 || pos == 5) {
-            base_octaves[string_number - 1] = 1;
-        } else {
-            base_octaves[string_number - 1] = 0;
+        // Update the octave when going below orig tuning for E string
+        if (string_number == 6) {
+            if (pos == 0 || pos == 5) {
+                base_octaves[string_number - 1] = 1;
+            } else {
+                base_octaves[string_number - 1] = 0;
+            }
         }
 
         event.target.innerHTML = new_note;
@@ -318,6 +327,20 @@ const listeners = {
             num_frets = newVal;
             app.setupFretboard();
             Object.keys(noteSet).forEach(str => noteSet[str] = ["", 0]);
+        }
+    },
+
+    enter(event) {
+        if (event.code == "Space") {
+            event.preventDefault();
+            listeners.playNotes();
+        }
+    },
+
+    backspace(event) {
+        if (event.code === "Backspace" || event.code === "Delete") {
+            event.preventDefault();
+            listeners.reset();
         }
     },
 
@@ -402,4 +425,4 @@ const audio = {
 }
 
 app.init();
-})();
+// })();
