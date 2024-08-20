@@ -46,10 +46,10 @@
         <div class="setting-group">
             <!-- Accidental selector -->
             <div class="accidental-selector">
-                <input type="radio" class="acc-selector" id="flats" name="accidentals" value="flats" checked>
-                <label class="radio_label" for="flats">♭</label>
-                <input type="radio" class="acc-selector" id="sharps" name="accidentals" value="sharps">
+                <input type="radio" class="acc-selector" id="sharps" name="accidentals" value="sharps" checked>
                 <label class="radio_label" for="sharps">♯</label>
+                <input type="radio" class="acc-selector" id="flats" name="accidentals" value="flats">
+                <label class="radio_label" for="flats">♭</label>
             </div>
             <h4 class="setting-title">accidentals</h4>
         </div>
@@ -76,6 +76,7 @@
     </div>
     <div class="fretboard"></div>
     <div class="numbers"></div>
+    <div class="help-text"> press SPACE to play  |  press DELETE to reset </div>
 
     <script src="../backend/fretboard.js"></script>
 </body>
