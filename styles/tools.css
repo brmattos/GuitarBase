@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap');
 
+@keyframes floatDown {
+    from {
+        transform: translateY(-3%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -11,6 +20,7 @@
 }
 
 .metronome {
+    animation: floatDown 2s ease-out forwards;
     display: flex;
     flex-direction: column;
     width: 300px;

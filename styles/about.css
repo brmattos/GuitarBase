@@ -1,0 +1,47 @@
+@keyframes floatDown {
+    from {
+        transform: translateY(-5%);
+        opacity: 0.8;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 100%;
+    color: rgb(115, 83, 58);
+    font-family: "Raleway", sans-serif;
+    margin-top: 37px;
+}
+
+.one, .two, .three {
+    animation: floatDown 1s ease-out forwards;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    align-content: center;
+    line-height: 1.5;
+    width: 650px;
+    height: 180px;
+    padding: 30px;
+    padding-top: 15px;
+    border-radius: 3rem;
+    overflow: scroll;
+}
+
+.title {
+    user-select: none;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px 10px;
+    line-height: 2.5;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 2rem;
+    background: rgb(102, 73, 51);
+    color: rgb(235, 235, 207);
+}

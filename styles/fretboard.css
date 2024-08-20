@@ -1,3 +1,14 @@
+@keyframes floatDown {
+    from {
+        transform: translateY(-3%);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
 :root {
     --fretboard-height: 350;
     --number-of-strings: 6;
@@ -12,6 +23,7 @@
 body {
     font-family: "Roboto Mono", monospace;
     background: rgb(235, 235, 207);
+    user-select: none;
 }
 
 /* ------------------- SETTINGS ------------------- */
@@ -36,6 +48,7 @@ body {
 }
 
 .setting-group {
+    animation: floatDown 1s ease-out forwards;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -196,6 +209,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 /* ------------------ FRETBOARD ------------------ */
 
 .fretboard {
+    animation: floatDown 1s ease-out forwards;
     display: flex;
     flex-direction: column;
     background: rgb(83, 48, 28);
