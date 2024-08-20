@@ -6,7 +6,7 @@ Description:
     and select/play notes & chords on a fretboard
 */
 
-// (function () {
+(function () {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -425,4 +425,4 @@ const audio = {
 }
 
 app.init();
-// })();
+})();
