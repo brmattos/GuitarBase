@@ -25,7 +25,7 @@ let count = 0;
 let bpm = 140;
 let measureBeats = 4;
 let currRunning = false;
-let currTempoText = "Medium";
+let currTempoText = "Steady";
 
 const app = {
     init() {
