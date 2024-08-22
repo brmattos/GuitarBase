@@ -311,6 +311,7 @@ const listeners = {
         event.target.innerHTML = new_note;
         event.target.setAttribute("value", pos);
         tuning[string_number - 1] = tunings[string_number][pos];
+        Object.keys(noteSet).forEach(str => noteSet[str] = ["", 0]);
         tools.clearNotes();
         app.setupFretboard();
     },
