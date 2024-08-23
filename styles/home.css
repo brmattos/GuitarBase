@@ -1,0 +1,115 @@
+@keyframes floatDown {
+    from {
+        transform: translateY(-3%);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.container {
+    user-select: none;
+    display: flex;
+    animation: floatDown 1s ease-out forwards;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    font-family: "Poppins", sans-serif;
+    color: rgb(88, 61, 41);
+    background: rgb(235, 235, 207);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    margin-top: 10vh;
+    height: 15vh;
+    min-width: 390px;
+    margin: 5vh 50vh;
+    border-radius: 5rem;
+    position: relative;
+}
+
+.title {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    color: rgba(88, 61, 41, 0.65);
+}
+
+.note {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    display: flex;
+    color: rgba(88, 61, 41, 0.65);
+    background: rgb(235, 235, 207);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    align-content: center;
+    position: relative;
+    height: 1.5vh;
+    width: 150px;
+    padding: 5px;
+    margin-left: 163vh;
+    margin-top: 6vh;
+    border-radius: 5rem;
+}
+
+.feature-group {
+    display: flex;
+    justify-content: center;
+    margin-left: 40vh;
+    height: 55vh;
+    width: 100vh;
+}
+
+.feature-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 0vh 5vh;
+    height: 45vh;
+    width: 100vh;
+    border-radius: 3rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.feature-title {
+    cursor: pointer;
+    border-radius: 2rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+    padding: 10px;
+    font-weight: 900;
+    color: rgb(64, 64, 140);
+    transition: 0.3s ease;
+}
+
+img:hover + .feature-title, .feature-title:hover{
+    background: rgb(64, 64, 140);
+    color: rgb(235, 235, 207);
+}
+
+img {
+    width: 330px;
+    height: 200px;
+    border-radius: 2rem;
+    cursor: pointer;
+}
+
+.tools-img {
+    height: 180px;
+}
+
+.description {
+    font-family: "Poppins", sans-serif;
+    color: rgba(88, 61, 41, 0.65);
+    margin-top: 10px;
+    font-size: 13px;
+    text-align: center;
+    justify-content: center;
+    line-height: 1.5;
+}
