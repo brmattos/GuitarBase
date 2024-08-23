@@ -26,7 +26,7 @@
                         </a>
                         <ul class="drop-down">
                             <li><a href="fretboard.html">Fretboard</a></li>
-                            <li><a href="library.html">Library</a></li>
+                            <li><a id="library" href="library.html">Library</a></li>
                             <li><a href="tools.html">Tools</a></li>
                         </ul>
                     </li>
@@ -39,8 +39,51 @@
                 </ul>
             </nav>
         </div>
+        <button class="sign-in">SIGN IN</button>
         <img src="../images/logo.png" class="logo-img" alt="logo">
     </div>
+
+    <div class="container">
+        <h1 class="title">GuitarBase</h1>
+        <p class="subtitle">play a while</div>
+    </div>
+    <div class="feature-group">
+        <div class="feature-container">
+            <div class="feature">
+                <img src="../images/fretboard.jpg" class="library-img" alt="fretboard">
+                <p class="feature-title" id="fretboard-link">Interactive Fretboard</p>
+                <p class="description">
+                    Whether exploring tunings, or experimenting with different notes and chords, 
+                    this dynamic tool has what you need to enhance your practice and playing experience. 
+                    Dive in and start exploring!
+                </p>
+            </div>
+        </div>
+        <div class="feature-container">
+            <div class="feature">
+                <img src="../images/fretboard.jpg" class="fretboard-img" alt="library">
+                <p class="feature-title" id="library-link">Library</p>
+                <p class="description">
+                    Whether exploring tunings, or experimenting with different notes and chords, 
+                    this dynamic tool has what you need to enhance your practice and playing experience. 
+                    Dive in and start exploring!
+                </p>
+            </div>
+        </div>
+        <div class="feature-container">
+            <div class="feature">
+                <img src="../images/tools.png" class="tools-img" alt="tools">
+                <p class="feature-title" id="tools-link">Tools</p>
+                <p class="description">
+                    Elevate your practice with our integrated metronome. Whether locking in a steady 
+                    beat or pushing your speed, this metronome is designed to help you stay on time.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="note">more features in development...</div>
+
     <script src="../backend/home.js"></script>
+    <script src="../backend/auth.js" type="module"></script>
 </body>
 </html>
