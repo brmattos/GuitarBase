@@ -6,30 +6,43 @@ Description:
     the pages/features
 */
 
+import { userSignIn } from "./auth.js";
+
 const fretboardImg = document.querySelector(".fretboard-img");
 const libraryImg = document.querySelector(".library-img");
 const toolsImg = document.querySelector(".tools-img");
 const fretboardLink = document.getElementById("fretboard-link");
 const libraryLink = document.getElementById("library-link");
 const toolsLink = document.getElementById("tools-link");
+const signBtn = document.querySelector(".sign-in");
 
-// Page images links
 fretboardImg.addEventListener("click", function() {
     window.location.href = "../pages/fretboard.html";
 });
-libraryImg.addEventListener("click", function() {
-    window.location.href = "../pages/library.html";
-});
-toolsImg.addEventListener("click", function() {
-    window.location.href = "../pages/tools.html";
-});
-
-// Feature title links
 fretboardLink.addEventListener("click", function() {
     window.location.href = "../pages/fretboard.html";
 });
+
+libraryImg.addEventListener("click", function() {
+    console.log(signBtn.innerHTML);
+    if (signBtn.innerHTML == "SIGN OUT") {
+        window.location.href = "../pages/library.html";
+    } else {
+        // prompt with popup, don't allow into page until signed in
+        userSignIn();
+    }
+});
 libraryLink.addEventListener("click", function() {
-    window.location.href = "../pages/library.html";
+    if (signBtn.innerHTML == "SIGN OUT") {
+        window.location.href = "../pages/library.html";
+    } else {
+        // prompt with popup, don't allow into page until signed in
+        userSignIn();
+    }
+});
+
+toolsImg.addEventListener("click", function() {
+    window.location.href = "../pages/tools.html";
 });
 toolsLink.addEventListener("click", function() {
     window.location.href = "../pages/tools.html";

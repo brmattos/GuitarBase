@@ -79,7 +79,19 @@
     </div>
     <div class="note">more features in development...</div>
 
-    <script src="../backend/home.js"></script>
+    <script src="../backend/home.js" type="module"></script>
     <script src="../backend/auth.js" type="module"></script>
+    <script type="module">
+        import { userSignIn } from "../backend/auth.js";
+        const signBtn = document.querySelector(".sign-in");
+        const libraryDropLink = document.getElementById("library");
+        libraryDropLink.addEventListener("click", function(event) {
+            if (signBtn.innerHTML != "SIGN OUT") {
+                // prompt with popup, don't allow into page until signed in
+                event.preventDefault();
+                userSignIn();
+            }
+        });
+    </script>
 </body>
 </html>

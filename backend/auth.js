@@ -15,11 +15,10 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
 const signBtn = document.querySelector(".sign-in");
-const forceSignIn = document.getElementById("library");
 
-let showSignIn = true;
+let signedIn = true;
 
-const userSignIn = async() => {
+export const userSignIn = async() => {
     signInWithPopup(auth, provider).then((result) => {
         const user = result.user;
         // console.log("Signed in");
@@ -39,7 +38,7 @@ const userSignOut = async() => {
 }
 
 const signChange = async() => {
-    if (showSignIn) {
+    if (!signedIn) {
         userSignIn();
     } else {
         userSignOut();
@@ -52,12 +51,12 @@ onAuthStateChanged(auth, (user) => {
         // Signed in
         signBtn.innerHTML = "SIGN OUT";
         signBtn.style.setProperty("margin-right", "20px");
-        showSignIn = false;
+        signedIn = true;
     } else {
         // Signed out
         signBtn.innerHTML = "SIGN IN";
         signBtn.style.setProperty("margin-right", "30px");
-        showSignIn = true;
+        signedIn = false;
     }
 });
 

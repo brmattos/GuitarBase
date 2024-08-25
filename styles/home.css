@@ -1,6 +1,16 @@
 @keyframes floatDown {
     from {
-        transform: translateY(-3%);
+        transform: translateY(-5%);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+@keyframes floatUp {
+    from {
+        transform: translateY(5%);
         opacity: 1;
     }
     to {
@@ -66,11 +76,12 @@
 }
 
 .feature-container {
+    animation: floatUp 1s ease-out forwards;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    padding: 0vh 5vh;
+    padding: 3vh 5vh;
     height: 45vh;
     width: 100vw;
     border-radius: 3rem;
