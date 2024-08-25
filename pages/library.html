@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../styles/nav.css">
     <link rel="stylesheet" href="../styles/library.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>GuitarBase - Library</title>
 </head>
@@ -42,7 +43,165 @@
         <button class="sign-in">SIGN IN</button>
         <img src="../images/logo.png" class="logo-img" alt="logo">
     </div>
-    <script src="../backend/tools.js"></script>
+
+    <div class="table">
+        <div class="table-heading">
+            <div class="heading-group">
+                <h1 style="margin-left: 4rem;">Your Library</h1>
+                <div class="input-group">
+                    <input class="search" type="search" placeholder="Search ...">
+                    <span class="material-symbols-outlined search">search</span>
+                </div>
+            </div>
+        </div>
+        <div class="table-body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>&#9733;</th>
+                        <th> Status </th>
+                        <th> Song Title </th>
+                        <th> Artist </th>
+                        <th> Tuning </th>
+                        <th> Tabs </th>
+                        <th><span class="material-symbols-outlined">edit</span></th>
+                        <th><span class="material-symbols-outlined">delete_forever</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><button class="status" id="not-learned">Not Learned</button></td>
+                        <td><span class="song-title">Dance Monkey</span></td>
+                        <td><span class="artist">Coco Melon</span></td>
+                        <td><span class="tuning">EADGBE</span></td>
+                        <td><a href="#" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined">edit</span></td>
+                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><button class="status" id="learned">Learned</button></td>
+                        <td><span class="song-title">Dance Monkey</span></td>
+                        <td><span class="artist">Coco Melon</span></td>
+                        <td><span class="tuning">EADGBE</span></td>
+                        <td><a href="#" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined">edit</span></td>
+                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><button class="status" id="in-progress">In Progress</button></td>
+                        <td><span class="song-title">Dance Monkey</span></td>
+                        <td><span class="artist">Coco Melon</span></td>
+                        <td><span class="tuning">EADGBE</span></td>
+                        <td><a href="#" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined">edit</span></td>
+                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><button class="status" id="not-learned">Not Learned</button></td>
+                        <td><span class="song-title">Dance Monkey</span></td>
+                        <td><span class="artist">Coco Melon</span></td>
+                        <td><span class="tuning">EADGBE</span></td>
+                        <td><a href="#" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined">edit</span></td>
+                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><button class="status" id="not-learned">Not Learned</button></td>
+                        <td><span class="song-title">Dance Monkey</span></td>
+                        <td><span class="artist">Coco Melon</span></td>
+                        <td><span class="tuning">EADGBE</span></td>
+                        <td><a href="#" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined">edit</span></td>
+                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><button class="status" id="not-learned">Not Learned</button></td>
+                        <td><span class="song-title">Dance Monkey</span></td>
+                        <td><span class="artist">Coco Melon</span></td>
+                        <td><span class="tuning">EADGBE</span></td>
+                        <td><a href="#" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined">edit</span></td>
+                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><button class="status" id="not-learned">Not Learned</button></td>
+                        <td><span class="song-title">Dance Monkey</span></td>
+                        <td><span class="artist">Coco Melon</span></td>
+                        <td><span class="tuning">EADGBE</span></td>
+                        <td><a href="#" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined">edit</span></td>
+                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><button class="status" id="not-learned">Not Learned</button></td>
+                        <td><span class="song-title">Dance Monkey</span></td>
+                        <td><span class="artist">Coco Melon</span></td>
+                        <td><span class="tuning">EADGBE</span></td>
+                        <td><a href="#" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined">edit</span></td>
+                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><button class="status" id="not-learned">Not Learned</button></td>
+                        <td><span class="song-title">Dance Monkey</span></td>
+                        <td><span class="artist">Coco Melon</span></td>
+                        <td><span class="tuning">EADGBE</span></td>
+                        <td><a href="#" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined">edit</span></td>
+                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><button class="status" id="not-learned">Not Learned</button></td>
+                        <td><span class="song-title">Dance Monkey</span></td>
+                        <td><span class="artist">Coco Melon</span></td>
+                        <td><span class="tuning">EADGBE</span></td>
+                        <td><a href="#" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined">edit</span></td>
+                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><button class="status" id="not-learned">Not Learned</button></td>
+                        <td><span class="song-title">Dance Monkey</span></td>
+                        <td><span class="artist">Coco Melon</span></td>
+                        <td><span class="tuning">EADGBE</span></td>
+                        <td><a href="#" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined">edit</span></td>
+                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="add-btn">ADD SONG</button>
+    </div>
+
+    <script src="../backend/library.js" type="module"></script>
     <script src="../backend/auth.js" type="module"></script>
+    <script type="module">
+        import { userSignIn } from "../backend/auth.js";
+        const signBtn = document.querySelector(".sign-in");
+        const libraryDropLink = document.getElementById("library");
+        libraryDropLink.addEventListener("click", function(event) {
+            if (signBtn.innerHTML != "SIGN OUT") {
+                // prompt with popup, don't allow into page until signed in
+                event.preventDefault();
+                userSignIn();
+            }
+        });
+        signBtn.addEventListener("click", function() { 
+            window.location.href = "home.html";
+        });
+
+    </script>
 </body>
 </html>

@@ -1,0 +1,212 @@
+@keyframes floatDown {
+    from {
+        transform: translateY(-5%);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+@keyframes floatUp {
+    from {
+        transform: translateY(2%);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+@media(max-width: 1000px) {
+    td:not(:first-of-type) {
+        min-width: 12.1rem;
+    }
+}
+
+.table {
+    font-family: "Poppins", sans-serif;
+    min-height: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 70vw;
+    height: 84vh;
+    box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
+    border-radius: .8rem;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.table-heading {
+    width: 100%;
+    background: rgb(64, 64, 140);
+    color: rgb(235, 235, 207);
+    box-shadow: 0 0 1rem rgba(64, 64, 140, 0.72);
+    user-select: none;
+    text-align: center;
+    padding: 1rem;
+}
+
+.input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.heading-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search {
+    width: 100%;
+    padding-right: .5rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: rgb(235, 235, 207);
+}
+
+.input-group:hover {
+    width: 55%;
+    background: rgb(51, 51, 118);
+}
+
+.material-symbols-outlined.search {
+    width: 3rem;
+    padding: 0.5rem 0;
+}
+
+.input-group {
+    width: 50%;
+    height: 100%;
+    background: rgb(47, 47, 108);
+    border-radius: 2rem;
+    padding-left: 0.8rem;
+    margin-right: 2rem;
+}
+
+.table-body {
+    width: 75%;
+    max-height: calc(80% - .16rem);
+    margin: 0.8rem auto;
+    margin-top: 1rem;
+    overflow: auto;
+    overflow: overlay;
+    border-radius: 3rem;
+    background: rgb(86, 60, 35);
+    animation: floatUp 1s ease-out forwards;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    user-select: none;
+    color: rgb(235, 235, 207);
+    background: rgb(52, 35, 20);
+    border-radius: 1rem;
+}
+
+table, th, td {
+    padding: 1rem;
+    text-align: left;
+}
+
+td {
+    color: rgb(235, 235, 207);
+}
+
+tr:hover {
+    background: rgb(100, 69, 41);
+}
+
+/* ------------------- TD SELECTORS ------------------- */
+
+.favorite {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.45);
+    transition: 0.3s ease;
+}
+
+.favorite:hover {
+    color: gold;
+}
+
+.status {
+    font-size: 13px;
+    border-radius: 2rem;
+    padding: .6rem;
+    border: none;
+    color: rgb(235, 235, 207);
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+#not-learned {
+    background: rgb(184, 34, 34);
+}
+#not-learned:hover {
+    background: rgb(206, 64, 64);
+}
+
+#in-progress {
+    background: rgb(64, 64, 140);
+}
+#in-progress:hover {
+    background: rgb(80, 80, 171);
+}
+
+#learned {
+    background: rgb(31, 139, 31);
+}
+#learned:hover {
+    background: rgb(41, 167, 41);
+}
+
+.tabs {
+    font-weight: 500;
+    border-radius: 2rem;
+    padding: .5rem;
+    background: rgb(235, 235, 207);
+    color: rgb(86, 60, 35);
+    transition: 0.4s ease;
+}
+
+.tabs:hover {
+    color: rgb(235, 235, 207);
+    background: rgb(52, 35, 20);
+}
+
+.material-symbols-outlined {
+    font-size: 20px !important;
+    transition: 0.3s ease;
+}
+
+td .material-symbols-outlined {
+    cursor: pointer;
+}
+
+td .material-symbols-outlined:hover {
+    color: rgb(52, 35, 20);
+}
+
+/* ------------------- ADD BUTTON ------------------- */
+
+.add-btn {
+    border-radius: 2rem;
+    color:rgb(235, 235, 207);
+    background:rgb(86, 60, 35);
+    border: none;
+    width: 50%;
+    padding: 0.5rem 0;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background:rgb(70, 47, 27);
+}

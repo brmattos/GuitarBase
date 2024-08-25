@@ -6,7 +6,10 @@ Description:
     and select/play notes & chords on a fretboard
 */
 
+// import { userSignIn } from "./auth.js";
+
 (function () {
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -85,6 +88,7 @@ const playBtn = document.querySelector(".play-button");
 const notesFlat = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
 const notesSharp = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 const fretmarkDots = [3, 5, 7, 9, 15, 17, 19, 21];
+const signBtn = document.querySelector(".sign-in");
 
 let tunings = {
     /* Possible alternate tunings for each string (relative to flats/sharps arr positions) */

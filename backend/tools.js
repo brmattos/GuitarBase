@@ -5,6 +5,7 @@ Description:
 */
 
 import Timer from './timer.js';
+import { userSignIn } from "./auth.js";
 
 (function () {
 
@@ -17,6 +18,7 @@ const startStopBtn = document.querySelector('.start-stop-btn');
 const subBeats = document.querySelector('.measure-adjust.decrease');
 const addBeats = document.querySelector('.measure-adjust.increase');
 const measureCount = document.querySelector('.measure-count');
+const signBtn = document.querySelector(".sign-in");
 
 const click1 = new Audio("../sounds/click1.mp3");
 const click2 = new Audio("../sounds/click2.mp3");
