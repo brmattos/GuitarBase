@@ -49,7 +49,7 @@
             <div class="heading-group">
                 <h1 style="margin-left: 4rem;">Your Library</h1>
                 <div class="input-group">
-                    <input class="search" type="search" placeholder="Search ...">
+                    <input class="search" type="search" name="search" placeholder="Search ...">
                     <span class="material-symbols-outlined search">search</span>
                 </div>
             </div>
@@ -59,126 +59,46 @@
                 <thead>
                     <tr>
                         <th>&#9733;</th>
-                        <th> Status </th>
-                        <th> Song Title </th>
-                        <th> Artist </th>
-                        <th> Tuning </th>
-                        <th> Tabs </th>
+                        <th class="h1"> Status <span value="inactive" class="material-symbols-outlined arrow">north</span></th>
+                        <th class="h2"> Song Title <span value="inactive" class="material-symbols-outlined arrow">north</span></th>
+                        <th class="h2"> Artist <span value="inactive" class="material-symbols-outlined arrow">north</span></th>
+                        <th class="h3"> Tuning <span value="inactive" class="material-symbols-outlined arrow">north</span></th>
+                        <th class="h4"> Tabs </th>
                         <th><span class="material-symbols-outlined">edit</span></th>
                         <th><span class="material-symbols-outlined">delete_forever</span></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><span class="favorite" value="none">&#9733;</span></td>
+                    <!-- <tr>
+                        <td><span class="favorite" id=0>&#9733;</span></td>
                         <td><button class="status" id="not-learned">Not Learned</button></td>
-                        <td><span class="song-title">Dance Monkey</span></td>
-                        <td><span class="artist">Coco Melon</span></td>
-                        <td><span class="tuning">EADGBE</span></td>
+                        <td><span class="song">Femininomenon</span></td>
+                        <td><span class="artist">Chapell Roan</span></td>
+                        <td><span class="tuning">DADGAD</span></td>
                         <td><a href="#" class="tabs">TABS</a></td>
                         <td><span class="material-symbols-outlined">edit</span></td>
                         <td><span class="material-symbols-outlined">delete_forever</span></td>
                     </tr>
                     <tr>
-                        <td><span class="favorite" value="none">&#9733;</span></td>
-                        <td><button class="status" id="learned">Learned</button></td>
-                        <td><span class="song-title">Dance Monkey</span></td>
-                        <td><span class="artist">Coco Melon</span></td>
-                        <td><span class="tuning">EADGBE</span></td>
-                        <td><a href="#" class="tabs">TABS</a></td>
-                        <td><span class="material-symbols-outlined">edit</span></td>
-                        <td><span class="material-symbols-outlined">delete_forever</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="favorite" value="none">&#9733;</span></td>
+                        <td><span class="favorite" id=0>&#9733;</span></td>
                         <td><button class="status" id="in-progress">In Progress</button></td>
-                        <td><span class="song-title">Dance Monkey</span></td>
-                        <td><span class="artist">Coco Melon</span></td>
-                        <td><span class="tuning">EADGBE</span></td>
+                        <td><span class="song">Jork it</span></td>
+                        <td><span class="artist">Melly</span></td>
+                        <td><span class="tuning">DADGAD</span></td>
                         <td><a href="#" class="tabs">TABS</a></td>
                         <td><span class="material-symbols-outlined">edit</span></td>
                         <td><span class="material-symbols-outlined">delete_forever</span></td>
                     </tr>
                     <tr>
-                        <td><span class="favorite" value="none">&#9733;</span></td>
-                        <td><button class="status" id="not-learned">Not Learned</button></td>
-                        <td><span class="song-title">Dance Monkey</span></td>
-                        <td><span class="artist">Coco Melon</span></td>
-                        <td><span class="tuning">EADGBE</span></td>
+                        <td><span class="favorite"id=0>&#9733;</span></td>
+                        <td><button class="status" id="learned">Learned</button></td>
+                        <td><span class="song">Butt</span></td>
+                        <td><span class="artist">Booty Roan</span></td>
+                        <td><span class="tuning">DADGAD</span></td>
                         <td><a href="#" class="tabs">TABS</a></td>
                         <td><span class="material-symbols-outlined">edit</span></td>
                         <td><span class="material-symbols-outlined">delete_forever</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="favorite" value="none">&#9733;</span></td>
-                        <td><button class="status" id="not-learned">Not Learned</button></td>
-                        <td><span class="song-title">Dance Monkey</span></td>
-                        <td><span class="artist">Coco Melon</span></td>
-                        <td><span class="tuning">EADGBE</span></td>
-                        <td><a href="#" class="tabs">TABS</a></td>
-                        <td><span class="material-symbols-outlined">edit</span></td>
-                        <td><span class="material-symbols-outlined">delete_forever</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="favorite" value="none">&#9733;</span></td>
-                        <td><button class="status" id="not-learned">Not Learned</button></td>
-                        <td><span class="song-title">Dance Monkey</span></td>
-                        <td><span class="artist">Coco Melon</span></td>
-                        <td><span class="tuning">EADGBE</span></td>
-                        <td><a href="#" class="tabs">TABS</a></td>
-                        <td><span class="material-symbols-outlined">edit</span></td>
-                        <td><span class="material-symbols-outlined">delete_forever</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="favorite" value="none">&#9733;</span></td>
-                        <td><button class="status" id="not-learned">Not Learned</button></td>
-                        <td><span class="song-title">Dance Monkey</span></td>
-                        <td><span class="artist">Coco Melon</span></td>
-                        <td><span class="tuning">EADGBE</span></td>
-                        <td><a href="#" class="tabs">TABS</a></td>
-                        <td><span class="material-symbols-outlined">edit</span></td>
-                        <td><span class="material-symbols-outlined">delete_forever</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="favorite" value="none">&#9733;</span></td>
-                        <td><button class="status" id="not-learned">Not Learned</button></td>
-                        <td><span class="song-title">Dance Monkey</span></td>
-                        <td><span class="artist">Coco Melon</span></td>
-                        <td><span class="tuning">EADGBE</span></td>
-                        <td><a href="#" class="tabs">TABS</a></td>
-                        <td><span class="material-symbols-outlined">edit</span></td>
-                        <td><span class="material-symbols-outlined">delete_forever</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="favorite" value="none">&#9733;</span></td>
-                        <td><button class="status" id="not-learned">Not Learned</button></td>
-                        <td><span class="song-title">Dance Monkey</span></td>
-                        <td><span class="artist">Coco Melon</span></td>
-                        <td><span class="tuning">EADGBE</span></td>
-                        <td><a href="#" class="tabs">TABS</a></td>
-                        <td><span class="material-symbols-outlined">edit</span></td>
-                        <td><span class="material-symbols-outlined">delete_forever</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="favorite" value="none">&#9733;</span></td>
-                        <td><button class="status" id="not-learned">Not Learned</button></td>
-                        <td><span class="song-title">Dance Monkey</span></td>
-                        <td><span class="artist">Coco Melon</span></td>
-                        <td><span class="tuning">EADGBE</span></td>
-                        <td><a href="#" class="tabs">TABS</a></td>
-                        <td><span class="material-symbols-outlined">edit</span></td>
-                        <td><span class="material-symbols-outlined">delete_forever</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="favorite" value="none">&#9733;</span></td>
-                        <td><button class="status" id="not-learned">Not Learned</button></td>
-                        <td><span class="song-title">Dance Monkey</span></td>
-                        <td><span class="artist">Coco Melon</span></td>
-                        <td><span class="tuning">EADGBE</span></td>
-                        <td><a href="#" class="tabs">TABS</a></td>
-                        <td><span class="material-symbols-outlined">edit</span></td>
-                        <td><span class="material-symbols-outlined">delete_forever</span></td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
