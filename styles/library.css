@@ -24,6 +24,8 @@
     }
 }
 
+/* ---------------- CONTAINER STYLES ----------------- */
+
 .table {
     font-family: "Poppins", sans-serif;
     min-height: 10vh;
@@ -54,6 +56,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    transition: .2s ease;
 }
 
 .heading-group {
@@ -71,18 +74,16 @@
     color: rgb(235, 235, 207);
 }
 
-.input-group:hover {
-    width: 55%;
-    background: rgb(51, 51, 118);
-}
+/* ---------------- TABLE STYLES ----------------- */
 
-.material-symbols-outlined.search {
-    width: 3rem;
-    padding: 0.5rem 0;
+.input-group:hover {
+    width: 45%;
+    background: rgb(51, 51, 118);
+    box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
 }
 
 .input-group {
-    width: 50%;
+    width: 40%;
     height: 100%;
     background: rgb(47, 47, 108);
     border-radius: 2rem;
@@ -91,7 +92,7 @@
 }
 
 .table-body {
-    width: 75%;
+    width: 80.5%;
     max-height: calc(80% - .16rem);
     margin: 0.8rem auto;
     margin-top: 1rem;
@@ -103,6 +104,7 @@
 }
 
 thead th {
+    cursor: pointer;
     position: sticky;
     top: 0;
     user-select: none;
@@ -116,6 +118,19 @@ table, th, td {
     text-align: left;
 }
 
+.h1 {
+    min-width: 5.8rem;
+}
+.h2 {
+    min-width: 8rem;
+}
+.h3 {
+    min-width: 5rem;
+}
+.h4 {
+    min-width: 3.8rem;
+}
+
 td {
     color: rgb(235, 235, 207);
 }
@@ -124,12 +139,106 @@ tr:hover {
     background: rgb(100, 69, 41);
 }
 
+.song, .artist, .tuning {
+    width: auto;
+    border: none;
+    background: rgb(70, 47, 27);
+    border-radius: .2rem;
+    color: rgb(235, 235, 207);
+    font-size: 15px;
+    padding: .6rem .5rem;
+    outline: none;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.song {
+    min-width: 7rem;
+    width: 7rem;
+}
+
+.artist {
+    min-width: 7rem;
+    width: 7rem;
+}
+
+.tuning {
+    min-width: 4rem;
+    width: 4rem;
+}
+
+.song::placeholder, .artist::placeholder, .tuning::placeholder {
+    color: rgb(235, 235, 207);;
+    opacity: .4;
+}
+
+/* -------------------- ICON STYLES -------------------- */
+
+.material-symbols-outlined {
+    font-size: 20px !important;
+    transition: 0.3s ease;
+}
+
+td .material-symbols-outlined {
+    cursor: pointer;
+}
+
+td .material-symbols-outlined:hover {
+    color: rgb(52, 35, 20);
+}
+
+.material-symbols-outlined.search {
+    width: 3rem;
+    padding: 0.5rem 0;
+}
+
+.material-symbols-outlined.arrow {
+    display: inline-block;
+    font-size: 15px !important;
+    width: 1.3rem;
+    height: 1.3rem;
+    border: 1.4px solid rgb(100, 69, 41);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1.2rem;
+}
+
+/* ---------------- SEARCH TRANSITIONS ----------------- */
+
+tbody tr {
+    --delay: .1s;
+    transition: .5s ease-in-out var(--delay), background 0s;
+}
+
+tbody tr.hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+tbody tr td,
+tbody tr td span,
+tbody tr td a,
+tbody tr td button,
+tbody tr td input {
+    transition: .2s ease-in-out;
+}
+
+tbody tr.hide td,
+tbody tr.hide td span,
+tbody tr.hide td a,
+tbody tr.hide td button,
+tbody tr.hide td input {
+    padding: 0;
+    font: 0 / 0 sans-serif;
+    transition: .2s ease-in-out .5s;
+}
+
 /* ------------------- TD SELECTORS ------------------- */
 
 .favorite {
     cursor: pointer;
     color: rgba(0, 0, 0, 0.45);
-    transition: 0.3s ease;
+    transition: 0.1s ease;
 }
 
 .favorite:hover {
@@ -180,19 +289,6 @@ tr:hover {
 .tabs:hover {
     color: rgb(235, 235, 207);
     background: rgb(52, 35, 20);
-}
-
-.material-symbols-outlined {
-    font-size: 20px !important;
-    transition: 0.3s ease;
-}
-
-td .material-symbols-outlined {
-    cursor: pointer;
-}
-
-td .material-symbols-outlined:hover {
-    color: rgb(52, 35, 20);
 }
 
 /* ------------------- ADD BUTTON ------------------- */
