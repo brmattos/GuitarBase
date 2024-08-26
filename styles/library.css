@@ -104,7 +104,6 @@
 }
 
 thead th {
-    cursor: pointer;
     position: sticky;
     top: 0;
     user-select: none;
@@ -118,28 +117,20 @@ table, th, td {
     text-align: left;
 }
 
-.h1 {
-    min-width: 5.8rem;
-}
-.h2 {
-    min-width: 8rem;
-}
-.h3 {
-    min-width: 5rem;
-}
-.h4 {
-    min-width: 3.8rem;
-}
+.h1 { min-width: 5.8rem; }
+.h2 { min-width: 8rem; }
+.h3 { min-width: 5rem; }
+.h4 { min-width: 3.8rem; }
 
-td {
+td { 
     color: rgb(235, 235, 207);
+    user-select: none;
 }
 
-tr:hover {
-    background: rgb(100, 69, 41);
-}
+tr:hover { background: rgb(100, 69, 41); }
 
 .song, .artist, .tuning {
+    user-select: text;
     width: auto;
     border: none;
     background: rgb(70, 47, 27);
@@ -194,6 +185,7 @@ td .material-symbols-outlined:hover {
 
 .material-symbols-outlined.arrow {
     display: inline-block;
+    cursor: pointer;
     font-size: 15px !important;
     width: 1.3rem;
     height: 1.3rem;
@@ -305,4 +297,19 @@ tbody tr.hide td input {
 
 .add-btn:hover {
     background:rgb(70, 47, 27);
+}
+
+/* ------------------- HEADER SORT ------------------- */
+
+#active {
+    transform: rotate(180deg);
+    background:rgb(235, 235, 207);
+    color:rgb(86, 60, 35);
+    border: none;
+}
+
+#inactive {
+    transform: rotate(0deg);
+    color:rgb(235, 235, 207);
+    background:rgb(86, 60, 35);
 }

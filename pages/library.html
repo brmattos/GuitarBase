@@ -49,7 +49,7 @@
             <div class="heading-group">
                 <h1 style="margin-left: 4rem;">Your Library</h1>
                 <div class="input-group">
-                    <input class="search" type="search" name="search" placeholder="Search ...">
+                    <input class="search" type="search" name="search" placeholder="Search ..." autocomplete="off">
                     <span class="material-symbols-outlined search">search</span>
                 </div>
             </div>
@@ -58,47 +58,57 @@
             <table>
                 <thead>
                     <tr>
-                        <th>&#9733;</th>
-                        <th class="h1"> Status <span value="inactive" class="material-symbols-outlined arrow">north</span></th>
-                        <th class="h2"> Song Title <span value="inactive" class="material-symbols-outlined arrow">north</span></th>
-                        <th class="h2"> Artist <span value="inactive" class="material-symbols-outlined arrow">north</span></th>
-                        <th class="h3"> Tuning <span value="inactive" class="material-symbols-outlined arrow">north</span></th>
+                        <th style="cursor: default">&#9733;</th>
+                        <th class="h1"> Status <span id="inactive" class="material-symbols-outlined arrow">north</span></th>
+                        <th class="h2"> Song Title <span id="inactive" class="material-symbols-outlined arrow">north</span></th>
+                        <th class="h2"> Artist <span id="inactive" class="material-symbols-outlined arrow">north</span></th>
+                        <th class="h3"> Tuning <span id="inactive" class="material-symbols-outlined arrow">north</span></th>
                         <th class="h4"> Tabs </th>
-                        <th><span class="material-symbols-outlined">edit</span></th>
-                        <th><span class="material-symbols-outlined">delete_forever</span></th>
+                        <th><span class="material-symbols-outlined" style="cursor: default">edit</span></th>
+                        <th><span class="material-symbols-outlined" style="cursor: pointer">delete_forever</span></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- <tr>
+                    <tr>
                         <td><span class="favorite" id=0>&#9733;</span></td>
                         <td><button class="status" id="not-learned">Not Learned</button></td>
-                        <td><span class="song">Femininomenon</span></td>
-                        <td><span class="artist">Chapell Roan</span></td>
-                        <td><span class="tuning">DADGAD</span></td>
-                        <td><a href="#" class="tabs">TABS</a></td>
-                        <td><span class="material-symbols-outlined">edit</span></td>
-                        <td><span class="material-symbols-outlined">delete_forever</span></td>
+                        <td><input type="text" placeholder="song title" class="song" value="Femininomenon" autocomplete="off"></span></td>
+                        <td><input type="text" placeholder="artist name" class="artist" value="Chapell Roan" autocomplete="off"></span></td>
+                        <td><input type="text" placeholder="EADGBE" class="tuning" value="EADGBE" autocomplete="off"></span></td>
+                        <td><a href="" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined edit">edit</span></td>
+                        <td><span class="material-symbols-outlined del">delete_forever</span></td>
                     </tr>
                     <tr>
-                        <td><span class="favorite" id=0>&#9733;</span></td>
-                        <td><button class="status" id="in-progress">In Progress</button></td>
-                        <td><span class="song">Jork it</span></td>
-                        <td><span class="artist">Melly</span></td>
-                        <td><span class="tuning">DADGAD</span></td>
-                        <td><a href="#" class="tabs">TABS</a></td>
-                        <td><span class="material-symbols-outlined">edit</span></td>
-                        <td><span class="material-symbols-outlined">delete_forever</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="favorite"id=0>&#9733;</span></td>
+                        <td><span class="favorite" id=1>&#9733;</span></td>
                         <td><button class="status" id="learned">Learned</button></td>
-                        <td><span class="song">Butt</span></td>
-                        <td><span class="artist">Booty Roan</span></td>
-                        <td><span class="tuning">DADGAD</span></td>
-                        <td><a href="#" class="tabs">TABS</a></td>
-                        <td><span class="material-symbols-outlined">edit</span></td>
-                        <td><span class="material-symbols-outlined">delete_forever</span></td>
-                    </tr> -->
+                        <td><input type="text" placeholder="song title" class="song" value="Neon" autocomplete="off"></span></td>
+                        <td><input type="text" placeholder="artist name" class="artist" value="John Mayer" autocomplete="off"></span></td>
+                        <td><input type="text" placeholder="EADGBE" class="tuning" value="CADGBE" autocomplete="off"></span></td>
+                        <td><a href="" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined edit">edit</span></td>
+                        <td><span class="material-symbols-outlined del">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" id=2>&#9733;</span></td>
+                        <td><button class="status" id="in-progress">In Progress</button></td>
+                        <td><input type="text" placeholder="song title" class="song" value="Simulation Swarm" autocomplete="off"></span></td>
+                        <td><input type="text" placeholder="artist name" class="artist" value="Big Thief" autocomplete="off"></span></td>
+                        <td><input type="text" placeholder="EADGBE" class="tuning" value="DADGAD" autocomplete="off"></span></td>
+                        <td><a href="" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined edit">edit</span></td>
+                        <td><span class="material-symbols-outlined del">delete_forever</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="favorite" id=3>&#9733;</span></td>
+                        <td><button class="status" id="learned">Learned</button></td>
+                        <td><input type="text" placeholder="song title" class="song" value="Anything" autocomplete="off"></span></td>
+                        <td><input type="text" placeholder="artist name" class="artist" value="Adrianne Lenker" autocomplete="off"></span></td>
+                        <td><input type="text" placeholder="EADGBE" class="tuning" value="DADGAD" autocomplete="off"></span></td>
+                        <td><a href="" class="tabs">TABS</a></td>
+                        <td><span class="material-symbols-outlined edit">edit</span></td>
+                        <td><span class="material-symbols-outlined del">delete_forever</span></td>
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -18,7 +18,7 @@ import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.13
 
 const searchField = document.querySelector(".input-group input");
 const tableBody = document.querySelector("tbody");
-const tableHeadings = document.querySelectorAll("thead th")
+const tableHeadings = document.querySelectorAll("thead th");
 const addBtn = document.querySelector(".add-btn");
 
 let count = 0;
@@ -31,7 +31,9 @@ const app = {
     setupEventListeners() {
         searchField.addEventListener("input", table.searchTable);
         addBtn.addEventListener("click", listeners.addEntry);
-        tableHeadings.addEventListener("click", handlers.handleSorting);
+        tableHeadings.forEach(heading => {
+            heading.addEventListener("click", handlers.setupSort);
+        });
         tableBody.addEventListener("click", function(event) {
             // Inner entry functionalities
             if (event.target.classList.contains("favorite")) {
@@ -59,7 +61,7 @@ const table = {
             row.querySelectorAll("input").forEach(input => {
                 data += input.value.toLowerCase() + " ";
             });
-            row.classList.toggle(".hide", data.indexOf(searchData) < 0);
+            row.classList.toggle("hide", data.indexOf(searchData) < 0);
             row.style.setProperty("--delay", i/25 + "s");  // seamless transition on group hide
         });
     },
@@ -148,7 +150,7 @@ const listeners = {
                 song.setAttribute("type", "text");
                 song.setAttribute("placeholder", "song title");
                 song.setAttribute("autocomplete", "off");
-                song.setAttribute("id", "song:" + count);
+                // song.setAttribute("id", "song:" + count);
                 song.setAttribute("class", "song");
                 data.appendChild(song);
             } else if (i == 3) {
@@ -157,7 +159,7 @@ const listeners = {
                 artist.setAttribute("type", "text");
                 artist.setAttribute("placeholder", "artist name");
                 artist.setAttribute("autocomplete", "off");
-                artist.setAttribute("id", "artist:" + count);
+                // artist.setAttribute("id", "artist:" + count);
                 artist.setAttribute("class", "artist");
                 data.appendChild(artist);
             } else if (i == 4) {
@@ -166,7 +168,7 @@ const listeners = {
                 tuning.setAttribute("type", "text");
                 tuning.setAttribute("autocomplete", "off");
                 tuning.setAttribute("placeholder", "EADGBE");
-                tuning.setAttribute("id", "tuning:" + count);
+                // tuning.setAttribute("id", "tuning:" + count);
                 tuning.setAttribute("class", "tuning");
                 data.appendChild(tuning);
             } else if (i == 5) {
@@ -192,22 +194,27 @@ const listeners = {
 }
 
 const handlers = {
-    handleSorting(event) {
-        const tableRows = document.querySelectorAll("tbody tr");
-        const searchData = searchField.value.toLowerCase();
-        tableRows.forEach((row, i) => {
-            let data = "";
-            row.querySelectorAll("input").forEach(input => {
-                data += input.value.toLowerCase() + " ";
+    setupSort(event) {
+        if (event.target.tagName != "TH") {
+            tableHeadings.forEach((heading) => {
+                if (heading.classList.contains("h1") || heading.classList.contains("h2") || heading.classList.contains("h3")) {
+                    heading.firstElementChild.setAttribute("id", "inactive");
+                }
             });
-            row.classList.toggle(".hide", data.indexOf(searchData) < 0);
-            row.style.setProperty("--delay", i/25 + "s");  // seamless transition on group hide
-        });
 
-        tableHeadings.forEach((heading) => {
-            heading.id = "inactive";
-        });
-        event.target.id = "active";
+            if (event.target.id) {
+                if (event.target.id == "active") {
+                    event.target.setAttribute("id", "inactive");
+                } else {
+                    event.target.setAttribute("id", "active");
+                }
+            }
+        }
+        handlers.sortTable();
+    },
+
+    sortTable() {
+        
     }
 }
 
