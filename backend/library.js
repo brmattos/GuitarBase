@@ -20,33 +20,70 @@ const searchField = document.querySelector(".input-group input");
 const tableBody = document.querySelector("tbody");
 const tableHeadings = document.querySelectorAll("thead th");
 const addBtn = document.querySelector(".add-btn");
-
 let count = 0;
 
 const app = {
     init() {
         this.setupEventListeners();
+        // handlers.addEntry();  // initial dummy entry
     },
 
     setupEventListeners() {
         searchField.addEventListener("input", table.searchTable);
-        addBtn.addEventListener("click", listeners.addEntry);
-        tableHeadings.forEach(heading => {
-            heading.addEventListener("click", handlers.setupSort);
-        });
+        addBtn.addEventListener("click", handlers.addEntry);
+
         tableBody.addEventListener("click", function(event) {
-            // Inner entry functionalities
+            /* Inner entry functionalities */
             if (event.target.classList.contains("favorite")) {
                 listeners.getFavorite(event);
             } else if (event.target.classList.contains("status")) {
                 listeners.changeStatus(event);
             } else if (event.target.classList.contains("tabs")) {
                 listeners.getTabs(event);
-            } else if (event.target.classList.contains("edit")) {
-                listeners.editEntry(event);
             } else if (event.target.classList.contains("del")) {
                 listeners.deleteEntry(event);
             }
+        });
+
+        tableHeadings.forEach(heading => {
+            /* Event listeners for each table heading, implements sorting the table */
+            let sort_asc = true;
+            heading.addEventListener("click", (event) => {
+                if (event.target.tagName == "TH") {
+                    return;
+                }
+                
+                // Remove the most recent active sort
+                tableHeadings.forEach((heading) => {
+                    if (!event.target.classList.contains("edit")) {
+                        heading.classList.remove("active");
+                    }
+                });
+        
+                // Set as active
+                let validHead = event.target.parentElement.classList;
+                let id = event.target.parentElement.id;
+                if (id == 1 || id == 2 || id == 3 || id == 4) {
+                    validHead.add("active");
+                }
+        
+                // Set all to inactive
+                document.querySelectorAll("td").forEach(td => td.classList.remove("active"));
+        
+                // Get the column (all row table data for the active column)
+                const tableRows = document.querySelectorAll("tbody tr");
+                tableRows.forEach((row) => {
+                    if (id != 0 && id != 5 && id != 6) {
+                        row.querySelectorAll("td")[id].classList.add("active");
+                    }
+                });
+        
+                // Determine whether in ascending or descending order
+                event.target.parentElement.classList.toggle("asc", sort_asc);
+                sort_asc = event.target.parentElement.classList.contains("asc") ? false : true;
+
+                handlers.sortTable(tableRows);  // sort the table by the column
+            });
         });
     }
 }
@@ -69,6 +106,7 @@ const table = {
 
 const listeners = {
     getFavorite(event) {
+        /* Update a favorite star to on or off for a song */
         if (event.target.style.color === "gold") {
             event.target.style.color = "";  // revert to default
         } else {
@@ -77,6 +115,7 @@ const listeners = {
     },
 
     changeStatus(event) {
+        /* Update the learn status of a song */
         if (event.target.id == "not-learned") {
             event.target.id = "in-progress";
             event.target.innerHTML = "In Progress";
@@ -91,7 +130,6 @@ const listeners = {
 
     getTabs(event) {
         /* Get the link for the tabs (Ultimate Guitar Tabs) */
-
         event.preventDefault();
         let newLink = "";
         let link = "https://www.ultimate-guitar.com/search.php?search_type=title&value=";
@@ -115,16 +153,17 @@ const listeners = {
         }
     },
 
-    editEntry(event) {
-
-    },
-
     deleteEntry(event) {
-        /* Delete the given entry */
+        /* Delete the given entry, add disappear effect */
         let row = event.target.parentElement.parentElement;
-        row.parentElement.removeChild(row);
-    },
+        row.classList.add("fadeout");
+        setTimeout(() => {
+            row.parentElement.removeChild(row);
+        }, 400);
+    }
+}
 
+const handlers = {
     addEntry() {
         /* Add a new entry with the table data field defaults */
         let row = tools.createElement("tr");
@@ -136,7 +175,6 @@ const listeners = {
                 // FAVORITE STAR
                 let favorite = tools.createElement("span", "&#9733;");
                 favorite.setAttribute("class", "favorite");
-                favorite.setAttribute("id", count);
                 data.appendChild(favorite);
             } else if (i == 1) {
                 // LEARNING STATUS BUTTON
@@ -150,7 +188,6 @@ const listeners = {
                 song.setAttribute("type", "text");
                 song.setAttribute("placeholder", "song title");
                 song.setAttribute("autocomplete", "off");
-                // song.setAttribute("id", "song:" + count);
                 song.setAttribute("class", "song");
                 data.appendChild(song);
             } else if (i == 3) {
@@ -159,7 +196,6 @@ const listeners = {
                 artist.setAttribute("type", "text");
                 artist.setAttribute("placeholder", "artist name");
                 artist.setAttribute("autocomplete", "off");
-                // artist.setAttribute("id", "artist:" + count);
                 artist.setAttribute("class", "artist");
                 data.appendChild(artist);
             } else if (i == 4) {
@@ -168,7 +204,6 @@ const listeners = {
                 tuning.setAttribute("type", "text");
                 tuning.setAttribute("autocomplete", "off");
                 tuning.setAttribute("placeholder", "EADGBE");
-                // tuning.setAttribute("id", "tuning:" + count);
                 tuning.setAttribute("class", "tuning");
                 data.appendChild(tuning);
             } else if (i == 5) {
@@ -190,39 +225,22 @@ const listeners = {
             }
         }
         count++;
-    }
-}
-
-const handlers = {
-    setupSort(event) {
-        if (event.target.tagName != "TH") {
-            tableHeadings.forEach((heading) => {
-                if (heading.classList.contains("h1") || heading.classList.contains("h2") || heading.classList.contains("h3")) {
-                    heading.firstElementChild.setAttribute("id", "inactive");
-                }
-            });
-
-            if (event.target.id) {
-                if (event.target.id == "active") {
-                    event.target.setAttribute("id", "inactive");
-                } else {
-                    event.target.setAttribute("id", "active");
-                }
-            }
-        }
-        handlers.sortTable();
     },
 
-    sortTable() {
-        
+    sortTable(tableRows) {
+        /* Sort function, run on the selected column to sort */
+        [...tableRows].sort((a, b) => {
+            let first_row = a.querySelectorAll("td");
+            let second_row = a.querySelectorAll("td");
+        })
     }
 }
 
 const tools = {
     createElement(element, content) {
+        /* Helper function (used for creating html elements with js in addEntry()) */
         element = document.createElement(element);
         if (arguments.length > 1) {
-            // passed in content
             element.innerHTML = content;
         }
         return element;

@@ -110,6 +110,7 @@ thead th {
     color: rgb(235, 235, 207);
     background: rgb(52, 35, 20);
     border-radius: 1rem;
+    transition: 0.2s ease-in-out;
 }
 
 table, th, td {
@@ -190,6 +191,8 @@ td .material-symbols-outlined:hover {
     width: 1.3rem;
     height: 1.3rem;
     border: 1.4px solid rgb(100, 69, 41);
+    color:rgb(235, 235, 207);
+    background:rgb(86, 60, 35);
     border-radius: 50%;
     text-align: center;
     line-height: 1.2rem;
@@ -200,6 +203,11 @@ td .material-symbols-outlined:hover {
 tbody tr {
     --delay: .1s;
     transition: .5s ease-in-out var(--delay), background 0s;
+    opacity: 1;
+}
+
+tbody tr.fadeout {
+    opacity: 0;
 }
 
 tbody tr.hide {
@@ -301,15 +309,16 @@ tbody tr.hide td input {
 
 /* ------------------- HEADER SORT ------------------- */
 
-#active {
-    transform: rotate(180deg);
-    background:rgb(235, 235, 207);
-    color:rgb(86, 60, 35);
-    border: none;
+thead th.active {
+    background: rgb(235, 235, 207);
+    color: rgb(100, 69, 41);
 }
 
-#inactive {
-    transform: rotate(0deg);
+thead th.inactive .arrow {
     color:rgb(235, 235, 207);
     background:rgb(86, 60, 35);
+}
+
+thead th.asc .arrow {
+    transform: rotate(180deg);
 }
