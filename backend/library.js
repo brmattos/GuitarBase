@@ -16,7 +16,7 @@ let count = 0;
 const app = {
     init() {
         this.setupEventListeners();
-        // handlers.addEntry();  // initial dummy entry
+        handlers.addEntry();  // initial dummy entry
     },
 
     setupEventListeners() {
