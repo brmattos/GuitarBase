@@ -5,16 +5,7 @@ Description:
     songs that the user is learning / wants to learn
 */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
-
-// DATABASE SETUP
-// const appSettings = {
-//     databaseURL: "https://guitarbase-3d851-default-rtdb.firebaseio.com/"
-// }
-// const app = initializeApp(appSettings);
-// const database = getDatabase(app);
-// const entriesInDB = ref(database, "songs");
+// import { db } from "./auth.js";
 
 const searchField = document.querySelector(".input-group input");
 const tableBody = document.querySelector("tbody");
@@ -245,7 +236,7 @@ const handlers = {
                 // button column (get html)
                 first_row = first_row.innerHTML;
                 second_row = second_row.innerHTML;
-            } else {
+            } else if (first_row.tagName == "") {
                 return;  // non-sortable column
             }
 

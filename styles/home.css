@@ -115,6 +115,10 @@ img {
     height: 180px;
 }
 
+.library-img {
+    width: 390px;
+}
+
 .description {
     font-family: "Poppins", sans-serif;
     color: rgba(88, 61, 41, 0.65);
