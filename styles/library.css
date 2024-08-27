@@ -198,6 +198,11 @@ td .material-symbols-outlined:hover {
     line-height: 1.2rem;
 }
 
+.material-symbols-outlined.arrow:hover {
+    background: rgb(235, 235, 207);
+    color: rgb(86, 60, 35);
+}
+
 /* ---------------- SEARCH TRANSITIONS ----------------- */
 
 tbody tr {
