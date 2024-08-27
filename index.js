@@ -6,7 +6,7 @@ Description:
     the pages/features
 */
 
-import { userSignIn } from "./auth.js";
+import { userSignIn } from "./backend/auth.js";
 
 const fretboardImg = document.querySelector(".fretboard-img");
 const libraryImg = document.querySelector(".library-img");
