@@ -111,12 +111,17 @@ img {
     cursor: pointer;
 }
 
+.fretboard-img {
+    margin-top: 18px;
+}
+
 .tools-img {
     height: 180px;
+    margin-bottom: 20px;
 }
 
 .library-img {
-    width: 390px;
+    width: 350px;
 }
 
 .description {

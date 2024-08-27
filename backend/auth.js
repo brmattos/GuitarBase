@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -13,7 +13,7 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-// export const db = getFirestore(app);
+export const db = getFirestore(app);
 
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
@@ -22,22 +22,35 @@ const signBtn = document.querySelector(".sign-in");
 let signedIn = true;
 
 export const userSignIn = async() => {
-    signInWithPopup(auth, provider).then((result) => {
+    try {
+        const result = await signInWithPopup(auth, provider);
         const user = result.user;
-        // console.log("Signed in");
-    }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-    })
+        // console.log("Signed in as:", user.uid);
+
+        // Create user document if it doesn't exist
+        const userDoc = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userDoc);
+
+        if (!docSnap.exists()) {
+            await setDoc(userDoc, {
+                email: user.email,
+                displayName: user.displayName,
+                createdAt: new Date(),
+            });
+            console.log("User document created.");
+        }
+    } catch (error) {
+        console.error("Error signing in:", error.message);
+    }
 }
 
 const userSignOut = async() => {
-    signOut(auth).then(() => {
-        // console.log("Signed out");
-    }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-    })
+    try {
+        await signOut(auth);
+        console.log("Signed out");
+    } catch (error) {
+        console.error("Error signing out:", error.message);
+    }
 }
 
 const signChange = async() => {
