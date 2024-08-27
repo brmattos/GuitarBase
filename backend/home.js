@@ -24,7 +24,6 @@ fretboardLink.addEventListener("click", function() {
 });
 
 libraryImg.addEventListener("click", function() {
-    console.log(signBtn.innerHTML);
     if (signBtn.innerHTML == "SIGN OUT") {
         window.location.href = "../pages/library.html";
     } else {
