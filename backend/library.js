@@ -45,7 +45,7 @@ const app = {
             }
         });
 
-        tableHeadings.forEach(heading => {
+        tableHeadings.forEach((heading, column) => {
             /* Event listeners for each table heading, implements sorting the table */
             let sort_asc = true;
             heading.addEventListener("click", (event) => {
@@ -82,7 +82,7 @@ const app = {
                 event.target.parentElement.classList.toggle("asc", sort_asc);
                 sort_asc = event.target.parentElement.classList.contains("asc") ? false : true;
 
-                handlers.sortTable(tableRows);  // sort the table by the column
+                handlers.sortTable(tableRows, column, sort_asc);  // sort the table by the column
             });
         });
     }
@@ -109,8 +109,10 @@ const listeners = {
         /* Update a favorite star to on or off for a song */
         if (event.target.style.color === "gold") {
             event.target.style.color = "";  // revert to default
+            event.target.setAttribute("value", "off");
         } else {
             event.target.style.color = "gold"; // set to gold
+            event.target.setAttribute("value", "on");
         }
     },
 
@@ -227,12 +229,30 @@ const handlers = {
         count++;
     },
 
-    sortTable(tableRows) {
-        /* Sort function, run on the selected column to sort */
+    sortTable(tableRows, column, sort_asc) {
+        /* Sort function, run on the selected column to sort table alphabetically by column */
         [...tableRows].sort((a, b) => {
-            let first_row = a.querySelectorAll("td");
-            let second_row = a.querySelectorAll("td");
-        })
+
+            // split into (a, b) to compare at each entry
+            let first_row = a.querySelectorAll("td")[column].firstElementChild;
+            let second_row = b.querySelectorAll("td")[column].firstElementChild;
+
+            if (first_row.tagName == "INPUT") {
+                // input column (get value)
+                first_row = first_row.value;
+                second_row = second_row.value;
+            } else if (first_row.tagName == "BUTTON") {
+                // button column (get html)
+                first_row = first_row.innerHTML;
+                second_row = second_row.innerHTML;
+            } else {
+                return;  // non-sortable column
+            }
+
+            // handle swapping positions (T: ascending F: descending)
+            return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
+
+        }).map(sorted_row => document.querySelector("tbody").appendChild(sorted_row));
     }
 }
 
