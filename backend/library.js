@@ -5,7 +5,8 @@ Description:
     songs that the user is learning / wants to learn
 */
 
-// import { db } from "./auth.js";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import { db } from "./auth.js";
 
 const searchField = document.querySelector(".input-group input");
 const tableBody = document.querySelector("tbody");
@@ -16,7 +17,7 @@ let count = 0;
 const app = {
     init() {
         this.setupEventListeners();
-        handlers.addEntry();  // initial dummy entry
+        // handlers.addEntry();  // initial dummy entry
     },
 
     setupEventListeners() {
