@@ -140,6 +140,9 @@ const database = {
                 element.href = doc.data().tabs;
             }
         }
+
+        // Add event listeners to input fields for updates
+        this.addInputListeners(entryRow, doc.id);
     },
 
     async createEntryDB() {
@@ -151,7 +154,7 @@ const database = {
             song: "",
             artist: "",
             tuning: "",
-            tabs_link: ""
+            tabs: ""
         });
         return docRef.id;
     },
@@ -164,6 +167,22 @@ const database = {
     async updateEntryDB(docId, updates) {
         const docRef = doc(db, "users", userId, "library", docId);
         await updateDoc(docRef, updates);
+    },
+
+    addInputListeners(row, docId) {
+        row.querySelectorAll("input").forEach(input => {
+            input.addEventListener("input", () => {
+                const updates = {};
+                const songInput = row.querySelector(".song");
+                const artistInput = row.querySelector(".artist");
+                const tuningInput = row.querySelector(".tuning");
+
+                if (songInput) updates.song = songInput.value;
+                if (artistInput) updates.artist = artistInput.value;
+                if (tuningInput) updates.tuning = tuningInput.value;
+                this.updateEntryDB(docId, updates);
+            });
+        });
     }
 }
 
@@ -195,16 +214,15 @@ const table = {
             if (first_row.tagName == "INPUT") {
                 // input column (get value)
                 first_row = first_row.value;
-                second_row = second_row.value;
+                second_row = second_row;
             } else if (first_row.tagName == "BUTTON") {
                 // button column (get html)
                 first_row = first_row.innerHTML;
                 second_row = second_row.innerHTML;
-            } else if (first_row.tagName == "") {
+            } else {
                 return;  // non-sortable column
             }
-
-            // handle swapping positions (T: ascending F: descending)
+            
             return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
 
         }).map(sorted_row => document.querySelector("tbody").appendChild(sorted_row));
@@ -215,12 +233,20 @@ const listeners = {
     getFavorite(event) {
         /* Update a favorite star to on or off for a song */
         if (event.target.style.color == "gold") {
-            event.target.style.color = "";  // revert to default
+            // revert to default (off)
+            event.target.style.color = "";
             event.target.setAttribute("value", "off");
         } else {
-            event.target.style.color = "gold"; // set to gold
+            // set to gold (on)
+            event.target.style.color = "gold";
             event.target.setAttribute("value", "on");
         }
+
+        // Update database
+        const updates = {};
+        let docId = event.target.parentElement.parentElement.id;
+        updates.favorite = (event.target.style.color == "gold") ? true : false;
+        database.updateEntryDB(docId, updates);
     },
 
     changeStatus(event) {
@@ -235,6 +261,12 @@ const listeners = {
             event.target.id = "not-learned";
             event.target.innerHTML = "Not Learned";
         }
+
+        // Update database
+        const updates = {};
+        let docId = event.target.parentElement.parentElement.id;
+        updates.status = event.target.id;
+        database.updateEntryDB(docId, updates);
     },
 
     getTabs(event) {
@@ -259,6 +291,12 @@ const listeners = {
             // open link in new tab
             link += newLink;
             window.open(link, "_blank");
+
+            // Update database
+            const updates = {};
+            let docId = event.target.parentElement.parentElement.id;
+            updates.tabs = link;
+            database.updateEntryDB(docId, updates);
         }
     },
 }
