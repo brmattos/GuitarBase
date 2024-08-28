@@ -83,21 +83,27 @@ const app = {
 
 const database = {
     async loadUserLibrary() {
-        const userLibraryRef = await collection(db, "users", userId, "library");
+        const userLibraryRef = collection(db, "users", userId, "library");
         const librarySnapshot = await getDocs(userLibraryRef);
         if (librarySnapshot.size == 0) {
             // no data, start with empty
             handlers.addEntry(false);  // initial dummy entry
         } else {
             librarySnapshot.forEach((doc) => {
-                this.renderEntry(doc);
+                this.readEntryDB(doc);
             });
         } 
     },
 
-    renderEntry(doc) {
+    readEntryDB(doc) {
         let entryRow = handlers.addEntry(true);
         entryRow.setAttribute("id", doc.id);
+
+        // Cascading load effect
+        entryRow.classList.add("fade-in");
+        const index = tableBody.children.length - 1;
+        entryRow.style.animationDelay = `${index * 0.1}s`;
+
 
         for (let i = 0; i < 6; i++) {
             let element = entryRow.children[i].firstElementChild;
@@ -136,8 +142,8 @@ const database = {
         }
     },
 
-    async addEntryDB() {
-        const userLibraryRef = await collection(db, "users", userId, "library");
+    async createEntryDB() {
+        const userLibraryRef = collection(db, "users", userId, "library");
         const docRef = doc(userLibraryRef);
         await setDoc(docRef, {
             favorite: false,
@@ -151,8 +157,13 @@ const database = {
     },
 
     async deleteEntryDB(docId) {
-        const docRef = await doc(db, "users", userId, "library", docId);
+        const docRef = doc(db, "users", userId, "library", docId);
         await deleteDoc(docRef);
+    },
+
+    async updateEntryDB(docId, updates) {
+        const docRef = doc(db, "users", userId, "library", docId);
+        await updateDoc(docRef, updates);
     }
 }
 
@@ -318,7 +329,7 @@ const handlers = {
         if (initialRender) {
             return row;
         }
-        row.id = database.addEntryDB();
+        row.id = database.createEntryDB();
     },
 
     deleteEntry(event) {

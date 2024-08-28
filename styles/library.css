@@ -18,6 +18,14 @@
         opacity: 1;
     }
 }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 @media(max-width: 1000px) {
     td:not(:first-of-type) {
         min-width: 12.1rem;
@@ -213,6 +221,11 @@ tbody tr {
 
 tbody tr.fadeout {
     opacity: 0;
+}
+
+tbody tr.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in forwards;
 }
 
 tbody tr.hide {
