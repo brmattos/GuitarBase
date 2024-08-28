@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -24,7 +24,7 @@ let signedIn = true;
 export const userSignIn = async() => {
     try {
         const result = await signInWithPopup(auth, provider);
-        const user = result.user;
+        const user = result.user; 
         // console.log("Signed in as:", user.uid);
 
         // Create user document if it doesn't exist
@@ -32,12 +32,26 @@ export const userSignIn = async() => {
         const docSnap = await getDoc(userDoc);
 
         if (!docSnap.exists()) {
+            // Create user doc
             await setDoc(userDoc, {
                 email: user.email,
                 displayName: user.displayName,
                 createdAt: new Date(),
             });
             console.log("User document created.");
+
+            // Create library collection for the user
+            const userLibrary = collection(userDoc, "library");
+            await setDoc(doc(userLibrary), {
+                favorite: false,
+                status: "not-learned",
+                song: "",
+                artist: "",
+                tuning: "",
+                tabs_link: ""
+            });
+            console.log("Library collection created");
+            console.log("empty initial song created");
         }
     } catch (error) {
         console.error("Error signing in:", error.message);
@@ -47,7 +61,7 @@ export const userSignIn = async() => {
 const userSignOut = async() => {
     try {
         await signOut(auth);
-        console.log("Signed out");
+        // console.log("Signed out");
     } catch (error) {
         console.error("Error signing out:", error.message);
     }
@@ -67,11 +81,13 @@ onAuthStateChanged(auth, (user) => {
         // Signed in
         signBtn.innerHTML = "SIGN OUT";
         signBtn.style.setProperty("margin-right", "20px");
+        localStorage.setItem("uid", user.uid); 
         signedIn = true;
     } else {
         // Signed out
         signBtn.innerHTML = "SIGN IN";
         signBtn.style.setProperty("margin-right", "30px");
+        localStorage.removeItem("uid");
         signedIn = false;
     }
 });

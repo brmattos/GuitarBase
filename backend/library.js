@@ -5,9 +5,10 @@ Description:
     songs that the user is learning / wants to learn
 */
 
-import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import { doc, setDoc, getDoc, getDocs, collection, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 import { db } from "./auth.js";
 
+const userId = localStorage.getItem("uid");
 const searchField = document.querySelector(".input-group input");
 const tableBody = document.querySelector("tbody");
 const tableHeadings = document.querySelectorAll("thead th");
@@ -16,13 +17,13 @@ let count = 0;
 
 const app = {
     init() {
+        database.loadUserLibrary();
         this.setupEventListeners();
-        handlers.addEntry();  // initial dummy entry
     },
 
     setupEventListeners() {
         searchField.addEventListener("input", table.searchTable);
-        addBtn.addEventListener("click", handlers.addEntry);
+        addBtn.addEventListener("click", () => handlers.addEntry(false));
 
         tableBody.addEventListener("click", function(event) {
             /* Inner entry functionalities */
@@ -33,7 +34,7 @@ const app = {
             } else if (event.target.classList.contains("tabs")) {
                 listeners.getTabs(event);
             } else if (event.target.classList.contains("del")) {
-                listeners.deleteEntry(event);
+                handlers.deleteEntry(event);
             }
         });
 
@@ -74,11 +75,88 @@ const app = {
                 event.target.parentElement.classList.toggle("asc", sort_asc);
                 sort_asc = event.target.parentElement.classList.contains("asc") ? false : true;
 
-                handlers.sortTable(tableRows, column, sort_asc);  // sort the table by the column
+                table.sortTable(tableRows, column, sort_asc);  // sort the table by the column
             });
         });
     }
 }
+
+const database = {
+    async loadUserLibrary() {
+        const userLibraryRef = await collection(db, "users", userId, "library");
+        const librarySnapshot = await getDocs(userLibraryRef);
+        if (librarySnapshot.size == 0) {
+            // no data, start with empty
+            handlers.addEntry(false);  // initial dummy entry
+        } else {
+            librarySnapshot.forEach((doc) => {
+                this.renderEntry(doc);
+            });
+        } 
+    },
+
+    renderEntry(doc) {
+        let entryRow = handlers.addEntry(true);
+        entryRow.setAttribute("id", doc.id);
+
+        for (let i = 0; i < 6; i++) {
+            let element = entryRow.children[i].firstElementChild;
+            if (i == 0) {
+                // FAVORITE STAR
+                if (doc.data().favorite) {
+                    // is favorited
+                    element.style.color = "gold";
+                    element.setAttribute("value", "on");
+                } else {
+                    element.setAttribute("value", "off");
+                }
+            } else if (i == 1) {
+                // STATUS
+                element.id = doc.data().status;
+                if (doc.data().status == "not-learned") {
+                    element.innerHTML = "Not Learned";
+                } else if (doc.data().status == "in-progress") {
+                    element.innerHTML = "In Progress";
+                } else if (doc.data().status == "learned") {
+                    element.innerHTML = "Learned";
+                }
+            } else if (i == 2) {
+                // SONG TITLE
+                element.value = doc.data().song;
+            } else if (i == 3) {
+                // ARTIST NAME
+                element.value = doc.data().artist;
+            } else if (i == 4) {
+                // TUNING
+                element.value = doc.data().tuning;
+            } else if (i == 5) {
+                // TAB LINK
+                element.href = doc.data().tabs;
+            }
+        }
+    },
+
+    async addEntryDB() {
+        const userLibraryRef = await collection(db, "users", userId, "library");
+        const docRef = doc(userLibraryRef);
+        await setDoc(docRef, {
+            favorite: false,
+            status: "not-learned",
+            song: "",
+            artist: "",
+            tuning: "",
+            tabs_link: ""
+        });
+        return docRef.id;
+    },
+
+    async deleteEntryDB(docId) {
+        const docRef = await doc(db, "users", userId, "library", docId);
+        await deleteDoc(docRef);
+    }
+}
+
+
 
 const table = {
     searchTable() {
@@ -94,12 +172,38 @@ const table = {
             row.style.setProperty("--delay", i/25 + "s");  // seamless transition on group hide
         });
     },
+
+    sortTable(tableRows, column, sort_asc) {
+        /* Sort function, run on the selected column to sort table alphabetically by column */
+        [...tableRows].sort((a, b) => {
+
+            // split into (a, b) to compare at each entry
+            let first_row = a.querySelectorAll("td")[column].firstElementChild;
+            let second_row = b.querySelectorAll("td")[column].firstElementChild;
+
+            if (first_row.tagName == "INPUT") {
+                // input column (get value)
+                first_row = first_row.value;
+                second_row = second_row.value;
+            } else if (first_row.tagName == "BUTTON") {
+                // button column (get html)
+                first_row = first_row.innerHTML;
+                second_row = second_row.innerHTML;
+            } else if (first_row.tagName == "") {
+                return;  // non-sortable column
+            }
+
+            // handle swapping positions (T: ascending F: descending)
+            return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
+
+        }).map(sorted_row => document.querySelector("tbody").appendChild(sorted_row));
+    }
 }
 
 const listeners = {
     getFavorite(event) {
         /* Update a favorite star to on or off for a song */
-        if (event.target.style.color === "gold") {
+        if (event.target.style.color == "gold") {
             event.target.style.color = "";  // revert to default
             event.target.setAttribute("value", "off");
         } else {
@@ -146,19 +250,10 @@ const listeners = {
             window.open(link, "_blank");
         }
     },
-
-    deleteEntry(event) {
-        /* Delete the given entry, add disappear effect */
-        let row = event.target.parentElement.parentElement;
-        row.classList.add("fadeout");
-        setTimeout(() => {
-            row.parentElement.removeChild(row);
-        }, 400);
-    }
 }
 
 const handlers = {
-    addEntry() {
+    addEntry(initialRender) {
         /* Add a new entry with the table data field defaults */
         let row = tools.createElement("tr");
         tableBody.appendChild(row);
@@ -218,34 +313,25 @@ const handlers = {
                 data.appendChild(del);
             }
         }
+
         count++;
+        if (initialRender) {
+            return row;
+        }
+        row.id = database.addEntryDB();
     },
 
-    sortTable(tableRows, column, sort_asc) {
-        /* Sort function, run on the selected column to sort table alphabetically by column */
-        [...tableRows].sort((a, b) => {
-
-            // split into (a, b) to compare at each entry
-            let first_row = a.querySelectorAll("td")[column].firstElementChild;
-            let second_row = b.querySelectorAll("td")[column].firstElementChild;
-
-            if (first_row.tagName == "INPUT") {
-                // input column (get value)
-                first_row = first_row.value;
-                second_row = second_row.value;
-            } else if (first_row.tagName == "BUTTON") {
-                // button column (get html)
-                first_row = first_row.innerHTML;
-                second_row = second_row.innerHTML;
-            } else if (first_row.tagName == "") {
-                return;  // non-sortable column
-            }
-
-            // handle swapping positions (T: ascending F: descending)
-            return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
-
-        }).map(sorted_row => document.querySelector("tbody").appendChild(sorted_row));
-    }
+    deleteEntry(event) {
+        /* Delete the given entry, add disappear effect */
+        let docId = event.target.parentElement.parentElement.id;
+        let row = event.target.parentElement.parentElement;
+        row.classList.add("fadeout");
+        setTimeout(() => {
+            // remove the entry from the page and the database
+            database.deleteEntryDB(docId);
+            row.parentElement.removeChild(row);
+        }, 100);
+    },
 }
 
 const tools = {
