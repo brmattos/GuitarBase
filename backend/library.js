@@ -15,6 +15,45 @@ const tableHeadings = document.querySelectorAll("thead th");
 const addBtn = document.querySelector(".add-btn");
 let count = 0;
 
+const clientId = "eab8dca9d488428c9ba7df31b7c181a8";
+const clientSecret = "ee5a6c9925f34639a259a605d24bcc4b";
+let accessToken = "";
+
+
+/* ------------------------------- SPOTIFY API ------------------------------- */
+const APIController = (() => {
+    // API access token
+    const authParams = {
+        method: "Post",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: "grant_type=client_credentials&client_id=" + clientId + "&client_secret=" + clientSecret
+    }
+
+    fetch("https://accounts.spotify.com/api/token", authParams)
+        .then(result => result.json())
+        .then(data => {
+            accessToken = data.access_token;
+        }).catch(error => console.error("Error fetching access token:", error));
+})();
+
+async function searchTrack(song, artist, accessToken) {
+    const query = encodeURIComponent(`${song} ${artist}`);
+    const searchParams = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + accessToken
+        }
+    }
+    let searchRef = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track&limit=1`, searchParams)
+        .then(response => response.json())
+        .then(data => data.tracks.items[0].href);
+    return searchRef;
+}
+/* --------------------------------------------------------------------------- */
+
 const app = {
     init() {
         database.loadUserLibrary();
@@ -33,6 +72,8 @@ const app = {
                 listeners.changeStatus(event);
             } else if (event.target.classList.contains("tabs")) {
                 listeners.getTabs(event);
+            } else if (event.target.classList.contains("play")){
+                listeners.playEntry(event);
             } else if (event.target.classList.contains("del")) {
                 handlers.deleteEntry(event);
             }
@@ -48,7 +89,7 @@ const app = {
                 
                 // Remove the most recent active sort
                 tableHeadings.forEach((heading) => {
-                    if (!event.target.classList.contains("edit")) {
+                    if (!event.target.classList.contains("play")) {
                         heading.classList.remove("active");
                     }
                 });
@@ -299,6 +340,24 @@ const listeners = {
             database.updateEntryDB(docId, updates);
         }
     },
+
+    async playEntry(event) {
+        /* Play the given entry on Spotify */
+        let row = event.target.parentElement.parentElement;
+        let song, artist;
+        row.querySelectorAll("input").forEach(input => {
+            // Get the song title and artist name
+            if (input.classList.contains("artist")) {
+                artist = input.value
+            } else if (input.classList.contains("song")) {
+                song = input.value;
+            }
+        });
+        const track = await searchTrack(song, artist, accessToken);
+        const trackId = track.split('/').pop();
+        const spotifyWebUrl = `https://open.spotify.com/track/${trackId}`;
+        window.open(spotifyWebUrl, '_blank');
+    }
 }
 
 const handlers = {
@@ -351,10 +410,10 @@ const handlers = {
                 tabs.setAttribute("href", "");
                 data.appendChild(tabs);
             } else if (i == 6) {
-                // EDIT BUTTON
-                let edit = tools.createElement("span", "edit");
-                edit.setAttribute("class", "material-symbols-outlined edit");
-                data.appendChild(edit);
+                // PLAY BUTTON
+                let play = tools.createElement("span", "play_circle");
+                play.setAttribute("class", "material-symbols-outlined play");
+                data.appendChild(play);
             } else if (i == 7) {
                 // DELETE BUTTON
                 let del = tools.createElement("span", "delete_forever");
@@ -380,7 +439,7 @@ const handlers = {
             database.deleteEntryDB(docId);
             row.parentElement.removeChild(row);
         }, 100);
-    },
+    }
 }
 
 const tools = {
