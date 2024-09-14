@@ -5,7 +5,8 @@ Description:
     songs that the user is learning / wants to learn
 */
 
-import { doc, setDoc, getDoc, getDocs, collection, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import { doc, setDoc, getDocs, collection, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import { clientId, clientSecret } from "../keys.js";
 import { db } from "./auth.js";
 
 const userId = localStorage.getItem("uid");
@@ -14,9 +15,6 @@ const tableBody = document.querySelector("tbody");
 const tableHeadings = document.querySelectorAll("thead th");
 const addBtn = document.querySelector(".add-btn");
 let count = 0;
-
-const clientId = "eab8dca9d488428c9ba7df31b7c181a8";
-const clientSecret = "ee5a6c9925f34639a259a605d24bcc4b";
 let accessToken = "";
 
 
